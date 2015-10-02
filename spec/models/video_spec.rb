@@ -15,13 +15,7 @@ describe Video do
     expect(south_park.categories).to eq([animation, comedy])
   end
 
-  it "has title" do
-    south_park = Video.new(title: nil, description: "some description")
-    expect(south_park.save).to eq(false)
-  end
+  it { should validate_presence_of :title}
 
-  it "has description" do
-    monk = Video.new(title: "Monk", description: nil)
-    expect(monk.save).to eq(false)
-  end
+  it { should validate_presence_of :description}
 end

@@ -16,8 +16,5 @@ describe Category do
     expect(category.videos).to eq([back_to_future, south_park])
   end
 
-  it "has title" do
-    non_title_category = Category.new(title: nil)
-    expect(non_title_category.save).to eq(false)
-  end
+  it { should validate_presence_of :title}
 end
