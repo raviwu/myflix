@@ -8,12 +8,16 @@ describe Category do
   end
 
   it "has many videos" do
-    category = Category.create(title: 'animation')
-    5.times do
-      Video.create(title: 'sample video', description: 'sample description')
-    end
+    category = Category.create(title: 'fantacy')
+    south_park = Video.create(title: 'South Park', description: 'funny movie')
+    back_to_future = Video.create(title: 'Back to Future', description: 'time travel movie must see')
     videos = Video.all
     category.videos << videos
-    expect(category.videos.size).to eq(Video.all.size)
+    expect(category.videos).to eq([back_to_future, south_park])
+  end
+
+  it "has title" do
+    non_title_category = Category.new(title: nil)
+    expect(non_title_category.save).to eq(false)
   end
 end
