@@ -1,6 +1,6 @@
-- @videos.each do |video|
+- @results.each do |result|
   .video.col-sm-2
-    = link_to video_path(video), nil do
-      %img{src: video.small_cover_url, alt: video.title}
-- if @videos.size == 0
+    = link_to video_path(result), nil do
+      %img{src: result.small_cover_url, alt: result.title}
+- if @results.size == 0
   %h3="Sorry, no video '#{@query}' found in title."

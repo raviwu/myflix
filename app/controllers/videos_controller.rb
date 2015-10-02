@@ -10,6 +10,6 @@ class VideosController < ApplicationController
 
   def search
     @query = params[:query]
-    @videos = Video.search_by_title(@query)
+    @results = Video.search_by_title(@query)
   end
 end
