@@ -4,8 +4,10 @@ class Category < ActiveRecord::Base
 
   validates :title, presence: true
 
+  RECENT_VIDEO_QTY = 6
+
   def recent_videos
-    self.videos.sort_by {|v| v.created_at}.reverse[0..5]
+    self.videos.sort_by {|v| v.created_at}.reverse.take(RECENT_VIDEO_QTY)
   end
 
 end

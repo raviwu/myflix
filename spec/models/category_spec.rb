@@ -10,31 +10,32 @@ describe Category do
       expect(comedy.recent_videos).to eq([])
     end
 
-    it "returns array contains all video if the category has less than 6 videos" do
+    it "returns array contains all video if the category has less than RECENT_VIDEO_QTY videos" do
       comedy = Category.create(title: 'comedy')
-      video = Video.create(title: 'video', description: 'description')
-      video.categories << comedy
-      expect(comedy.recent_videos).to eq([video])
+      up = Video.create(title: 'Up', description: 'description')
+      up.categories << comedy
+      expect(comedy.recent_videos).to eq([up])
     end
 
-    it "returns array contains only 6 videos if the category has more than 6 video" do
+    it "returns array contains only 6 videos if the category has more than RECENT_VIDEO_QTY video" do
       comedy = Category.create(title: 'comedy')
       videos = []
-      8.times do |n|
+      over_insert = 2
+      (Category::RECENT_VIDEO_QTY + over_insert).times do |n|
         videos[n] = Video.create(title: "video #{n}", description: 'description')
       end
       videos.each {|video| video.categories << comedy }
-      videos.shift(2)
+      videos.shift(over_insert)
       expect(comedy.recent_videos).to eq(videos.reverse)
     end
 
     it "returns videos in created_at desc order" do
       comedy = Category.create(title: 'comedy')
-      video_1 = Video.create(title: 'video_1', description: 'description')
-      video_1.categories << comedy
-      video_2 = Video.create(title: 'video_2', description: 'description')
-      video_2.categories << comedy
-      expect(comedy.recent_videos).to eq([video_2, video_1])
+      up = Video.create(title: 'Up', description: 'description')
+      up.categories << comedy
+      se7en = Video.create(title: 'Se7en', description: 'description', created_at: 1.day.ago)
+      se7en.categories << comedy
+      expect(comedy.recent_videos).to eq([up, se7en])
     end
 
     it "returns videos only belongs to the query category" do
