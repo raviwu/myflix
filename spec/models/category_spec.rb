@@ -36,5 +36,15 @@ describe Category do
       video_2.categories << comedy
       expect(comedy.recent_videos).to eq([video_2, video_1])
     end
+
+    it "returns videos only belongs to the query category" do
+      comedy = Category.create(title: 'comedy')
+      action = Category.create(title: 'action')
+      south_park = Video.create(title: "South Part", description: 'funny movie')
+      south_park.categories << comedy
+      die_hard = Video.create(title: "Die Hard", description: 'action movie')
+      die_hard.categories << action
+      expect(comedy.recent_videos).to eq([south_park])
+    end
   end
 end

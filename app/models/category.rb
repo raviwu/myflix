@@ -5,7 +5,7 @@ class Category < ActiveRecord::Base
   validates :title, presence: true
 
   def recent_videos
-    Video.all.order(created_at: :desc).limit(6)
+    self.videos.sort_by {|v| v.created_at}.reverse[0..5]
   end
 
 end
