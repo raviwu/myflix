@@ -6,6 +6,7 @@ Myflix::Application.routes.draw do
   get '/register', to: 'users#new'
 
   get '/sign_in', to: 'sessions#new', as: 'sign_in'
+  delete '/sign_out', to: 'sessions#destroy', as: 'sign_out'
 
   get '/home', to: 'videos#index'
 

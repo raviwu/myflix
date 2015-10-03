@@ -1,6 +1,7 @@
+%h1= "Search Result for: #{@query}"
 - @results.each do |result|
   .video.col-sm-2
     = link_to video_path(result), nil do
-      %img{src: result.small_cover_url, alt: result.title}
+      %img{src: result.small_cover_url, alt: result.title, style: 'margin-bottom:1em;margin-top:1em;'}
 - if @results.size == 0
-  %h3="Sorry, no video '#{@query}' found in title."
+  %p Sorry, no video found.
