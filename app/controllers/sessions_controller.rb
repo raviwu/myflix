@@ -1,16 +1,17 @@
 class SessionsController < ApplicationController
   def new
+    redirect_to home_path if logged_in?
   end
 
   def create
-    @user = User.find_by(email: params[:email])
-    if @user && @user.authenticate(params[:password])
-      flash[:success] = "Welcome back, #{@user.fullname}."
-      log_in(@user)
+    user = User.find_by(email: params[:email])
+    if user && user.authenticate(params[:password])
+      flash[:success] = "Welcome back, #{user.fullname}. Enjoy!"
+      log_in(user)
       redirect_to home_path
     else
-      flash[:danger] = "Wrong email / password combination."
-      render 'new'
+      flash[:danger] = "Invalid email / password combination."
+      redirect_to sign_in_path
     end
   end
 
