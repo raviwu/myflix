@@ -1,15 +1,18 @@
 %section#top-header.row
   %h1.col-md-2
-    = link_to "MyFLiX", root_path
-  %ul.col-md-3.clearfix
-    %li= link_to "Videos", videos_path
-    %li= link_to "My Queue"
-    %li= link_to "People"
-  = form_tag(search_videos_path, method: :get, enforce_utf8: false, class: 'col-md-5 navbar-form') do
-    .form-group
-      = text_field_tag 'query', nil, placeholder: 'Search for videos here', class: 'form-control'
-    = button_tag 'Search',name: nil, class: 'btn btn-default'
+    - if logged_in?
+      = link_to "MyFLiX",  home_path
+    - else
+      = link_to "MyFLix", root_path
   - if logged_in?
+    %ul.col-md-3.clearfix
+      %li= link_to "Videos", videos_path
+      %li= link_to "My Queue"
+      %li= link_to "People"
+    = form_tag(search_videos_path, method: :get, enforce_utf8: false, class: 'col-md-5 navbar-form') do
+      .form-group
+        = text_field_tag 'query', nil, placeholder: 'Search for videos here', class: 'form-control'
+      = button_tag 'Search',name: nil, class: 'btn btn-default'
     #user_links.pull-right
       %ul
         %li.dropdown

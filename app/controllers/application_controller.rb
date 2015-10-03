@@ -21,11 +21,17 @@ class ApplicationController < ActionController::Base
   end
 
   def require_user
-    access_deny unless logged_in?
+    unless logged_in?
+      access_deny
+      redirect_to sign_in_path
+    end
   end
 
   def access_deny
     flash[:danger] = "Sorry, cannot do that."
-    redirect_to root_path
+  end
+
+  def front_page
+    redirect_to home_path if logged_in?
   end
 end
