@@ -6,7 +6,7 @@
       = link_to "MyFLix", root_path
   - if logged_in?
     %ul.col-md-3.clearfix
-      %li= link_to "Videos", videos_path
+      %li= link_to "Videos", categories_path
       %li= link_to "My Queue"
       %li= link_to "People"
     = form_tag(search_videos_path, method: :get, enforce_utf8: false, class: 'col-md-5 navbar-form') do
