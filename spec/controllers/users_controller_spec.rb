@@ -23,19 +23,25 @@ describe UsersController do
   end
 
   describe "POST create" do
-    it "sets the @user variable with input params" do
-      post :create, user: valid_user_params
-      assigns(:user).should be_instance_of(User)
+    context "with valid user input" do
+      before do
+        post :create, user: valid_user_params
+      end
+      it "sets the @user variable" do
+        assigns(:user).should be_instance_of(User)
+      end
+      it "saves the @user" do
+        user = User.find_by(email: valid_user_params[:email])
+        expect(User.last).to eq(user)
+      end
+      it "sets the flash notice" do
+        expect(flash[:success]).not_to be_blank
+      end
+      it "redirects to home_path if the record is saved" do
+        response.should redirect_to(home_path)
+      end
     end
-    it "saves the @user if input params is valid" do
-      post :create, user: valid_user_params
-      user = User.find_by(email: valid_user_params[:email])
-      expect(User.last).to eq(user)
-    end
-    it "redirects to home_path if the record is saved" do
-      post :create, user: valid_user_params
-      response.should redirect_to(home_path)
-    end
+
     it "renders the new template if the input params is invalid" do
       post :create, user: invalid_user_params
       response.should render_template :new

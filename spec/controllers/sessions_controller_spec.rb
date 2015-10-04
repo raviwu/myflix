@@ -16,24 +16,44 @@ describe SessionsController do
   end
 
   describe "POST create" do
-    it "redirects to home_path if authentication succeeds" do
-      post :create, email: user.email, password: "password"
-      response.should redirect_to(home_path)
+    context "with valid input" do
+      before do
+        post :create, email: user.email, password: "password"
+      end
+      it "redirects to home_path if authentication succeeds" do
+        response.should redirect_to(home_path)
+      end
+      it "sets the flash[:success]" do
+        expect(flash[:success]).not_to be_blank
+      end
     end
-    it "redirects to sign_in_path if authentication fails" do
-      post :create, email: user.email, password: "pw"
-      response.should redirect_to(sign_in_path)
+
+    context "with invalid input" do
+      before do
+        post :create, email: user.email, password: "pw"
+      end
+      it "redirects to sign_in_path if authentication fails" do
+        response.should redirect_to(sign_in_path)
+      end
+      it "sets the flash[:danger]" do
+        expect(flash[:danger]).not_to be_blank
+      end
     end
   end
 
   describe "DELETE destroy" do
-    it "clear the session[:user_id]" do
+    before do
+      session[:user_id] = user.id
       delete :destroy
-      expect(session[:user_id]).to be_falsey
+    end
+    it "clear the session[:user_id]" do
+      expect(session[:user_id]).to be_nil
     end
     it "redirects to root_path" do
-      delete :destroy
       response.should redirect_to(root_path)
+    end
+    it "sets the flash[:info]" do
+      expect(flash[:info]).not_to be_blank
     end
   end
 end
