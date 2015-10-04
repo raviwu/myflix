@@ -5,6 +5,19 @@ describe VideosController do
   let(:video) { Fabricate(:video) } # title formatted as "Video Random Title"
   let(:random_query) { Faker::Lorem.word }
 
+  describe "GET index" do
+    it "redirects to sign_in_path when not logged in" do
+      get :index
+      response.should redirect_to(sign_in_path)
+    end
+    it "sets the @categories variable" do
+      session[:user_id] = user.id
+      get :index
+      2.times { Fabricate(:category) }
+      assigns(:categories).should eq(Category.all)
+    end
+  end
+
   describe "GET show" do
     it "redirects to sign_in_path when not logged in" do
       get :show, id: Faker::Number.digit
