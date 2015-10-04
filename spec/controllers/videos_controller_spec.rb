@@ -91,9 +91,17 @@ describe VideosController do
         post :create_review, id: video.id, review: valid_review_params
         response.should redirect_to(video_path(video))
       end
+      it "does not create review if input params is invalid" do
+        post :create_review, id: video.id, review: invalid_review_params
+        expect(video.reviews.count).to eq(0)
+      end
       it "renders the video show page if the input params is invalid" do
         post :create_review, id: video.id, review: invalid_review_params
         response.should render_template :show
+      end
+      it "sets review.errors if input is invalid" do
+        post :create_review, id: video.id, review: invalid_review_params
+        expect(assigns(:review).errors.any?).to be_truthy
       end
     end
   end
