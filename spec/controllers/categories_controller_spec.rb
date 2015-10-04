@@ -9,7 +9,7 @@ describe CategoriesController do
       get :show, id: Faker::Number.digit
       response.should redirect_to(sign_in_path)
     end
-    it "sets the @category" do
+    it "sets the @category with authenticated user" do
       session[:user_id] = user.id
       get :show, id: category.id
       assigns(:category).should eq(category)

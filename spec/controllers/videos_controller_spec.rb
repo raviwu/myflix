@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe VideosController do
   let(:user) { Fabricate(:user) }
-  let(:video) { Fabricate(:video) } # title formatted as "Video Random Title"
+  let(:video) { Fabricate(:video) }
   let(:random_query) { Faker::Lorem.word }
 
   describe "GET index" do
@@ -10,11 +10,12 @@ describe VideosController do
       get :index
       response.should redirect_to(sign_in_path)
     end
-    it "sets the @categories variable" do
+
+    it "sets the @categories variable with authenticated user" do
       session[:user_id] = user.id
       get :index
       2.times { Fabricate(:category) }
-      assigns(:categories).should eq(Category.all)
+        assigns(:categories).should eq(Category.all)
     end
   end
 
@@ -23,7 +24,8 @@ describe VideosController do
       get :show, id: Faker::Number.digit
       response.should redirect_to(sign_in_path)
     end
-    it "sets the @video variable" do
+
+    it "sets the @video variable with authenticated user" do
       session[:user_id] = user.id
       get :show, id: video.id
       assigns(:video).should eq(video)
@@ -35,21 +37,20 @@ describe VideosController do
       get :search, query: random_query
       response.should redirect_to(sign_in_path)
     end
-    it "sets the @query variable" do
-      session[:user_id] = user.id
-      get :search, query: random_query
-      assigns(:query).should eq(random_query)
-    end
-    it "sets the @results variable as [] when no match" do
-      session[:user_id] = user.id
-      get :search, query: random_query
-      assigns(:results).should eq([])
-    end
-    it "sets the @results variable" do
-      session[:user_id] = user.id
-      5.times { Fabricate(:video) }
-      get :search, query: 'video'
-      assigns(:results).should eq(Video.all.reverse)
+
+    context "with authenticated user" do
+      before do
+        session[:user_id] = user.id
+      end
+      it "sets the @query variable" do
+        get :search, query: random_query
+        assigns(:query).should eq(random_query)
+      end
+      it "sets the @results variable" do
+        up = Fabricate(:video, title: 'Up')
+        get :search, query: 'up'
+        assigns(:results).should eq([up])
+      end
     end
   end
 end

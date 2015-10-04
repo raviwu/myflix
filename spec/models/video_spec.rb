@@ -5,8 +5,8 @@ describe Video do
   it { should validate_presence_of :title}
   it { should validate_presence_of :description}
 
-  let!(:video_1) { Fabricate(:video) }
-  let!(:video_2) { Fabricate(:video) }
+  let!(:video_1) { Fabricate(:video, title: 'video_1') }
+  let!(:video_2) { Fabricate(:video, title: 'video_2') }
 
   describe "#search_by_title" do
     it "returns empty array if the search query is not found" do
