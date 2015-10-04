@@ -1,15 +1,17 @@
 require 'spec_helper'
 
 describe VideosController do
+  let(:user) { Fabricate(:user) }
+  let(:video) { Fabricate(:video) } # title formatted as "Video Random Title"
+  let(:random_query) { Faker::Lorem.word }
+
   describe "GET show" do
     it "redirects to sign_in_path when not logged in" do
-      get :show, id: 1
+      get :show, id: Faker::Number.digit
       response.should redirect_to(sign_in_path)
     end
     it "sets the @video variable" do
-      user = User.create(email: "user@example.com", fullname: "user", password: "password")
       session[:user_id] = user.id
-      video = Video.create(title: 'video', description: 'description')
       get :show, id: video.id
       assigns(:video).should eq(video)
     end
@@ -17,29 +19,23 @@ describe VideosController do
 
   describe "GET search" do
     it "redirects to sign_in_path when not logged in" do
-      get :search, query: 'test'
+      get :search, query: random_query
       response.should redirect_to(sign_in_path)
     end
     it "sets the @query variable" do
-      user = User.create(email: "user@example.com", fullname: "user", password: "password")
       session[:user_id] = user.id
-      query = 'query string'
-      get :search, query: query
-      assigns(:query).should eq(query)
+      get :search, query: random_query
+      assigns(:query).should eq(random_query)
     end
     it "sets the @results variable as [] when no match" do
-      user = User.create(email: "user@example.com", fullname: "user", password: "password")
       session[:user_id] = user.id
-      query = 'query string'
-      get :search, query: query
+      get :search, query: random_query
       assigns(:results).should eq([])
     end
     it "sets the @results variable" do
-      user = User.create(email: "user@example.com", fullname: "user", password: "password")
       session[:user_id] = user.id
-      5.times { Video.create(title: 'video', description: 'description') }
-      query = 'video'
-      get :search, query: query
+      5.times { Fabricate(:video) }
+      get :search, query: 'video'
       assigns(:results).should eq(Video.all.reverse)
     end
   end

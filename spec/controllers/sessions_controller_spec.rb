@@ -1,9 +1,10 @@
 require 'spec_helper'
 
 describe SessionsController do
+  let(:user) { Fabricate(:user) }
+
   describe "GET new" do
     it "redirect_to home_path if there is current_user" do
-      user = User.create(email: "user@example.com", fullname: "user", password: "password")
       session[:user_id] = user.id
       get :new
       response.should redirect_to(home_path)
@@ -16,13 +17,11 @@ describe SessionsController do
 
   describe "POST create" do
     it "redirects to home_path if authentication succeeds" do
-      user = User.create(email: "user@example.com", fullname: "user", password: "password")
-      post :create, email: "user@example.com", password: "password"
+      post :create, email: user.email, password: "password"
       response.should redirect_to(home_path)
     end
     it "redirects to sign_in_path if authentication fails" do
-      user = User.create(email: "user@example.com", fullname: "user", password: "password")
-      post :create, email: "wrong@example.com", password: "password"
+      post :create, email: user.email, password: "pw"
       response.should redirect_to(sign_in_path)
     end
   end
