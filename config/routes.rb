@@ -9,6 +9,7 @@ Myflix::Application.routes.draw do
   delete '/sign_out', to: 'sessions#destroy', as: 'sign_out'
 
   get '/home', to: 'videos#index'
+  get '/my_queue', to: 'queue_items#index'
 
   resources :videos, only: [:index, :show] do
     collection do
@@ -16,10 +17,12 @@ Myflix::Application.routes.draw do
     end
     member do
       post 'review', to: 'videos#create_review'
+      post 'add_queue', to: 'queue_items#create'
     end
   end
 
   resources :categories, only: [:show]
   resources :users, only: [:create]
   resources :sessions, only: [:new, :create]
+  resources :queue_items, only: [:destroy]
 end
