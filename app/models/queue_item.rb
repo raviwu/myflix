@@ -2,6 +2,8 @@ class QueueItem < ActiveRecord::Base
   belongs_to :user
   belongs_to :video
 
+  validates_numericality_of :position, greater_than: 0, only_integer: true
+
   delegate :title, to: :video, prefix: :video
 
   def rating

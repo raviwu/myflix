@@ -4,6 +4,21 @@ describe QueueItem do
   it { should belong_to :user }
   it { should belong_to :video }
 
+  describe "position datatype" do
+    it "is not to be string" do
+      queue_item = Fabricate(:queue_item, position: 1)
+      expect(queue_item.update(position: 'a')).to be_falsey
+    end
+    it "is greater than 0" do
+      queue_item = Fabricate(:queue_item, position: 1)
+      expect(queue_item.update(position: 0)).to be_falsey
+    end
+    it "is an integer" do
+      queue_item = Fabricate(:queue_item, position: 1)
+      expect(queue_item.update(position: 5.5)).to be_falsey
+    end
+  end
+
   describe "#video_title" do
     it "returns the video title of associated video" do
       video = Fabricate(:video, title: 'Up')
