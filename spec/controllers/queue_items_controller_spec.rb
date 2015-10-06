@@ -54,14 +54,15 @@ describe QueueItemsController do
     context "current_user not yet queue the video" do
       before do
         session[:user_id] = user.id
-        2.times { Fabricate(:queue_item, user: user) }
+        Fabricate(:queue_item, user: user, position: 1)
+        Fabricate(:queue_item, user: user, position: 2)
         post :create, id: video.id
       end
       it "saves @queue_item if there's no same queue_item record found" do
         expect(user.queue_items.count).to eq(3)
       end
       it "saves @queue_item as last record in position" do
-        expect(user.queue_items.first.position).to eq(3)
+        expect(user.queue_items.last.video).to eq(video)
       end
       it "sets the flash[:success]" do
         expect(flash[:success]).not_to be_nil
@@ -73,8 +74,8 @@ describe QueueItemsController do
   end
 
   describe "PUT/PATCH update_position" do
-    let(:queue_item1) { Fabricate(:queue_item, user: user) }
-    let(:queue_item2) { Fabricate(:queue_item, user: user) }
+    let(:queue_item1) { Fabricate(:queue_item, user: user, position: 1) }
+    let(:queue_item2) { Fabricate(:queue_item, user: user, position: 2) }
 
     let(:valid_params) { {queue_item1.id => {position: '2'}, queue_item2.id => {position: '1'}} }
     let(:valid_params_incorrect_order) { {queue_item1.id => {position: '2'}, queue_item2.id => {position: '3'}} }
@@ -103,11 +104,11 @@ describe QueueItemsController do
       end
       it "does not save if the postition input is not integer" do
         put :update_position, queue_items: non_integer_params
-        expect(queue_item1.position).to be_nil
+        expect(queue_item1.position).to eq(1)
       end
       it "does not save if the postition input has duplication" do
         put :update_position, queue_items: dup_position_params
-        expect(queue_item1.position).to be_nil
+        expect(queue_item1.position).to eq(1)
       end
       it "updates the queur items according to correct input" do
         put :update_position, queue_items: valid_params
