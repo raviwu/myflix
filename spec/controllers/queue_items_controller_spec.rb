@@ -142,11 +142,16 @@ describe QueueItemsController do
     context "with authenticated user" do
       before do
         session[:user_id] = user.id
-        queue_item = Fabricate(:queue_item, user: user, video: video)
+        Fabricate(:queue_item, user: user, position: 1)
+        queue_item = Fabricate(:queue_item, user: user, video: video, position: 2)
+        Fabricate(:queue_item, user: user, position: 3)
         delete :destroy, id: queue_item.id
       end
       it "deletes the record" do
-        expect(user.queue_items.count).to eq(0)
+        expect(user.queue_items.count).to eq(2)
+      end
+      it "normalize the remaining queue items" do
+        expect(user.queue_items.last.position).to eq(2)
       end
       it "redirect to my_queue_path" do
         response.should redirect_to(my_queue_path)
