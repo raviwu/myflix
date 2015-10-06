@@ -72,6 +72,54 @@ describe QueueItemsController do
     end
   end
 
+  describe "PUT/PATCH update_position" do
+    let(:queue_item1) { Fabricate(:queue_item, user: user) }
+    let(:queue_item2) { Fabricate(:queue_item, user: user) }
+
+    let(:valid_params) { {queue_item1.id => {position: '2'}, queue_item2.id => {position: '1'}} }
+    let(:valid_params_incorrect_order) { {queue_item1.id => {position: '2'}, queue_item2.id => {position: '3'}} }
+    let(:non_integer_params) { {queue_item1.id => {position: 'a'}, queue_item2.id => {position: '1'}} }
+    let(:dup_position_params) { {queue_item1.id => {position: '1'}, queue_item2.id => {position: '1'}} }
+
+    it "redirect to sign_in_path if not logged in" do
+      put :update_position
+      response.should redirect_to sign_in_path
+    end
+    context "logged in but not the queue items owner" do
+      before do
+        session[:user_id] = Fabricate(:user).id
+        put :update_position, queue_items: valid_params
+      end
+      it "redirect to my_queue_path of not authenticated user" do
+        response.should redirect_to my_queue_path
+      end
+      it "sets flash[:danger]" do
+        expect(flash[:danger]).not_to be_nil
+      end
+    end
+    context "logged in with authenticated user" do
+      before do
+        session[:user_id] = user.id
+      end
+      it "does not save if the postition input is not integer" do
+        put :update_position, queue_items: non_integer_params
+        expect(queue_item1.position).to be_nil
+      end
+      it "does not save if the postition input has duplication" do
+        put :update_position, queue_items: dup_position_params
+        expect(queue_item1.position).to be_nil
+      end
+      it "updates the queur items according to correct input" do
+        put :update_position, queue_items: valid_params
+        expect(queue_item1.reload.position).to eq(2)
+      end
+      it "normalize the position order" do
+        put :update_position, queue_items: valid_params_incorrect_order
+        expect(queue_item1.reload.position).to eq(1)
+      end
+    end
+  end
+
   describe "DELETE destroy" do
     it "redirects to sign_in_path when not logged in" do
       queue_item = Fabricate(:queue_item)

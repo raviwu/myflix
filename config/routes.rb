@@ -11,6 +11,9 @@ Myflix::Application.routes.draw do
   get '/home', to: 'videos#index'
   get '/my_queue', to: 'queue_items#index'
 
+  put '/update_queue_position', to: 'queue_items#update_position'
+  patch '/update_queue_position', to: 'queue_items#update_position'
+
   resources :videos, only: [:index, :show] do
     collection do
       get 'search', to: 'videos#search'

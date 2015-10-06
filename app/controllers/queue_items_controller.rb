@@ -21,6 +21,25 @@ class QueueItemsController < ApplicationController
 
   end
 
+  def update_position
+    queue_owner = updated_queue_owner
+    if queue_owner == current_user
+      if position_input_invalid?
+        access_deny
+      else
+        ActiveRecord::Base.transaction do
+          update_position_params.each do |id, assign|
+            QueueItem.find(id).update_attributes!(position: assign[:position])
+          end
+        end
+        normalize_position(queue_owner.queue_items)
+      end
+    else
+      access_deny
+    end
+    redirect_to my_queue_path
+  end
+
   def destroy
     queue_item = QueueItem.find(params[:id])
     if queue_item.user == current_user
@@ -41,4 +60,35 @@ class QueueItemsController < ApplicationController
   def queued?(video)
     QueueItem.where(user: current_user, video: video).count > 0
   end
+
+  def update_position_params
+    #{queue_items: {1 => {position: 'value'}, 2 => {position: 'value'}}}
+    params.require(:queue_items).permit!
+  end
+
+  def updated_queue_owner
+    QueueItem.find(update_position_params.to_a.first.first).try(:user)
+  end
+
+  def position_input_invalid?
+    input_positions = update_position_params.map { |id, assign| assign[:position] }
+
+    duplicated_position?(input_positions) || non_integer_position?(input_positions)
+
+  end
+
+  def duplicated_position?(input_positions)
+    input_positions.length != input_positions.uniq.length
+  end
+
+  def non_integer_position?(input_positions)
+    input_positions.join =~ /\D/
+  end
+
+  def normalize_position(queue_items)
+    queue_items.each_with_index do |queue_item, index|
+      queue_item.update_attributes(position: index + 1)
+    end
+  end
+
 end
