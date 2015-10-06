@@ -11,4 +11,10 @@ class User < ActiveRecord::Base
     !QueueItem.where(user: self, video: video).empty?
   end
 
+  def normalize_queue_items_position
+    self.queue_items.each_with_index do |queue_item, index|
+      queue_item.update_attributes(position: index + 1)
+    end
+  end
+
 end

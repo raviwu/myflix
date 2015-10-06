@@ -54,15 +54,14 @@ describe QueueItemsController do
     context "current_user not yet queue the video" do
       before do
         session[:user_id] = user.id
-        Fabricate(:queue_item, user: user, position: 1)
-        Fabricate(:queue_item, user: user, position: 2)
+        2.times { Fabricate(:queue_item, user: user) }
         post :create, id: video.id
       end
       it "saves @queue_item if there's no same queue_item record found" do
         expect(user.queue_items.count).to eq(3)
       end
       it "saves @queue_item as last record in position" do
-        expect(user.queue_items.last.video).to eq(video)
+        expect(user.queue_items.last.position).to eq(3)
       end
       it "sets the flash[:success]" do
         expect(flash[:success]).not_to be_nil

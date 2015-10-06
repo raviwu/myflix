@@ -9,12 +9,11 @@ class QueueItemsController < ApplicationController
     video = Video.find(params[:id])
     @queue_item = QueueItem.new(user: current_user, video: video)
 
-    if queued?(video)
+    if current_user.queued?(video)
       flash[:danger] = "You've already have #{video.title} in your queue."
       redirect_to video_path(video)
     else
-      @queue_item.position = new_queue_item_position
-      @queue_item.save
+      @queue_item.update(position: new_queue_item_position)
       flash[:success] = "Added #{video.title} to your queue!"
       redirect_to my_queue_path
     end
@@ -23,16 +22,12 @@ class QueueItemsController < ApplicationController
 
   def update_position
     queue_owner = updated_queue_owner
-    if queue_owner == current_user
-      if position_input_invalid?
-        access_deny
-      else
-        ActiveRecord::Base.transaction do
-          update_position_params.each do |id, assign|
-            QueueItem.find(id).update_attributes!(position: assign[:position])
-          end
+    if queue_owner == current_user && position_input_valid?
+      ActiveRecord::Base.transaction do
+        params[:queue_items].each do |id, assign|
+          QueueItem.find(id).update_attributes!(position: assign[:position])
         end
-        normalize_position(queue_owner.queue_items)
+        queue_owner.normalize_queue_items_position
       end
     else
       access_deny
@@ -45,7 +40,7 @@ class QueueItemsController < ApplicationController
     queue_owner = queue_item.user
     if queue_owner == current_user
       queue_item.destroy
-      normalize_position(queue_owner.queue_items)
+      queue_owner.normalize_queue_items_position
       redirect_to my_queue_path
     else
       access_deny
@@ -59,24 +54,20 @@ class QueueItemsController < ApplicationController
     current_user.queue_items.count + 1
   end
 
-  def queued?(video)
-    QueueItem.where(user: current_user, video: video).count > 0
-  end
-
-  def update_position_params
-    #{queue_items: {1 => {position: 'value'}, 2 => {position: 'value'}}}
-    params.require(:queue_items).permit!
-  end
-
   def updated_queue_owner
-    QueueItem.find(update_position_params.to_a.first.first).try(:user)
+    QueueItem.find(params[:queue_items].to_a.first.first).try(:user)
   end
 
   def position_input_invalid?
-    input_positions = update_position_params.map { |id, assign| assign[:position] }
+    #{queue_items: {1 => {position: 'value'}, 2 => {position: 'value'}}}
+    input_positions = params[:queue_items].map { |id, assign| assign[:position] }
 
     duplicated_position?(input_positions) || non_integer_position?(input_positions)
 
+  end
+
+  def position_input_valid?
+    !position_input_invalid?
   end
 
   def duplicated_position?(input_positions)
@@ -85,12 +76,6 @@ class QueueItemsController < ApplicationController
 
   def non_integer_position?(input_positions)
     input_positions.join =~ /\D/
-  end
-
-  def normalize_position(queue_items)
-    queue_items.each_with_index do |queue_item, index|
-      queue_item.update_attributes(position: index + 1)
-    end
   end
 
 end
