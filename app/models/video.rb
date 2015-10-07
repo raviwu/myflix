@@ -15,6 +15,6 @@ class Video < ActiveRecord::Base
   def avg_rating
     ratings = []
     reviews.each { |review| ratings << review.rating }
-    ratings.empty? ? 0 : (ratings.sum.to_f / ratings.size).round(1)
+    ratings.empty? ? 0 : (ratings.compact.sum.to_f / ratings.size).round(1)
   end
 end

@@ -76,10 +76,11 @@ describe QueueItemsController do
     let(:queue_item1) { Fabricate(:queue_item, user: user, position: 1) }
     let(:queue_item2) { Fabricate(:queue_item, user: user, position: 2) }
 
-    let(:valid_params) { {queue_item1.id => {position: '2'}, queue_item2.id => {position: '1'}} }
-    let(:valid_params_incorrect_order) { {queue_item1.id => {position: '2'}, queue_item2.id => {position: '3'}} }
-    let(:non_integer_params) { {queue_item1.id => {position: 'a'}, queue_item2.id => {position: '1'}} }
-    let(:dup_position_params) { {queue_item1.id => {position: '1'}, queue_item2.id => {position: '1'}} }
+    let(:valid_params) { {queue_item1.id.to_s => {position: '2'}, queue_item2.id.to_s => {position: '1'}} }
+    let(:valid_params_with_rating) { {queue_item1.id.to_s => {position: '2', rating: '2'}, queue_item2.id.to_s => {position: '1', rating: ''}} }
+    let(:valid_params_incorrect_order) { {queue_item1.id.to_s => {position: '2'}, queue_item2.id.to_s => {position: '3'}} }
+    let(:non_integer_params) { {queue_item1.id.to_s => {position: 'a'}, queue_item2.id.to_s => {position: '1'}} }
+    let(:dup_position_params) { {queue_item1.id.to_s => {position: '1'}, queue_item2.id.to_s => {position: '1'}} }
 
     it "redirect to sign_in_path if not logged in" do
       put :update_position
@@ -116,6 +117,24 @@ describe QueueItemsController do
       it "normalize the position order" do
         put :update_position, queue_items: valid_params_incorrect_order
         expect(queue_item1.reload.position).to eq(1)
+      end
+      it "update if setting nil to existing rating" do
+        queue_item2.video.reviews.create(creator: user, rating: 5)
+        put :update_position, queue_items: valid_params_with_rating
+        expect(queue_item2.rating).to eq(nil)
+      end
+      it "update the existed rating" do
+        queue_item1.video.reviews.create(creator: user, rating: 5)
+        put :update_position, queue_items: valid_params_with_rating
+        expect(queue_item1.rating).to eq(2)
+      end
+      it "creates review if there's no existed review" do
+        put :update_position, queue_items: valid_params_with_rating
+        expect(queue_item1.rating).to eq(2)
+      end
+      it "does not create review if rating input is nil" do
+        put :update_position, queue_items: valid_params_with_rating
+        expect(Review.where(creator: user, video: queue_item2.video).first).to be_nil
       end
     end
   end

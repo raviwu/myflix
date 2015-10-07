@@ -23,7 +23,8 @@
                     = link_to queue_item.video_title, video_path(queue_item.video)
                   %td
                     = button_to "Play", nil, class: "btn btn-default"
-                  %td= queue_item.rating
+                  %td
+                    = select_tag "queue_items[#{queue_item.id}][rating]", options_for_video_rating(queue_item.rating), include_blank: (true unless queue_item.rating),:id => 'queue_items_id_rating', class: 'form-control'
                   %td
                     %ul
                       - queue_item.categories.each do |category|

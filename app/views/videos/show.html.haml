@@ -21,7 +21,7 @@
             %label Rate this video
             .row
               .col-sm-3
-                = f.select :rating, Review::RATINGS.to_a, {}, {class: 'form-control'}
+                = f.select :rating, options_for_video_rating, {}, {class: 'form-control'}
           .form-group
             = f.label :body, "Write Review"
             .row

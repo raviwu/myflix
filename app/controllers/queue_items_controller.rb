@@ -25,10 +25,11 @@ class QueueItemsController < ApplicationController
     if queue_owner == current_user && position_input_valid?
       ActiveRecord::Base.transaction do
         params[:queue_items].each do |id, assign|
-          QueueItem.find(id).update_attributes!(position: assign[:position])
+          QueueItem.find(id).update_attributes!(position: assign[:position], rating: assign[:rating])
         end
         queue_owner.normalize_queue_items_position
       end
+
     else
       access_deny
     end
@@ -59,7 +60,7 @@ class QueueItemsController < ApplicationController
   end
 
   def position_input_invalid?
-    #{queue_items: {1 => {position: 'value'}, 2 => {position: 'value'}}}
+    #{queue_items: {1 => {position: 'value', rating: '1'}, 2 => {position: 'value', rating: ''}}}
     input_positions = params[:queue_items].map { |id, assign| assign[:position] }
 
     duplicated_position?(input_positions) || non_integer_position?(input_positions)
