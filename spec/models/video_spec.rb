@@ -7,10 +7,10 @@ describe Video do
   it { should validate_presence_of :title}
   it { should validate_presence_of :description}
 
-  let!(:video_1) { Fabricate(:video, title: 'video_1') }
-  let!(:video_2) { Fabricate(:video, title: 'video_2') }
-
   describe "#search_by_title" do
+    let!(:video_1) { Fabricate(:video, title: 'video_1') }
+    let!(:video_2) { Fabricate(:video, title: 'video_2') }
+
     it "returns empty array if the search query is not found" do
       expect(Video.search_by_title('nothistitle')).to eq([])
     end
@@ -33,14 +33,21 @@ describe Video do
   end
 
   describe '#avg_rating' do
+    let(:video) { Fabricate(:video) }
+
     it "returns 0 if there's no review" do
-      expect(video_1.avg_rating).to eq(0)
+      expect(video.avg_rating).to eq(0)
     end
     it "returns avg_rating of all review ratings" do
-      review_1 = Fabricate(:review, video: video_1)
-      review_2 = Fabricate(:review, video: video_1)
-      avg = (review_1.rating + review_2.rating).to_f / 2
-      expect(video_1.avg_rating).to eq(avg)
+      Fabricate(:review, video: video, rating: 2)
+      Fabricate(:review, video: video, rating: 3)
+      expect(video.avg_rating).to eq(2.5)
+    end
+    it "calculates the avg_rating even if reviews contain nil rating" do
+      Fabricate(:review, video: video, rating: 5)
+      review = Fabricate(:review, video: video)
+      review.update_column(:rating, nil)
+      expect(video.avg_rating).to eq(5)
     end
   end
 

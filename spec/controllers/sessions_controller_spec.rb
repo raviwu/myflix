@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe SessionsController do
-  let(:user) { Fabricate(:user) }
 
   describe "GET new" do
+
     it "redirect_to home_path if there is current_user" do
-      session[:user_id] = user.id
+      set_current_user
       get :new
       response.should redirect_to(home_path)
     end
@@ -16,6 +16,7 @@ describe SessionsController do
   end
 
   describe "POST create" do
+    let(:user) { Fabricate(:user, password: 'password') }
     context "with valid input" do
       before do
         post :create, email: user.email, password: "password"
@@ -43,7 +44,7 @@ describe SessionsController do
 
   describe "DELETE destroy" do
     before do
-      session[:user_id] = user.id
+      set_current_user
       delete :destroy
     end
     it "clear the session[:user_id]" do

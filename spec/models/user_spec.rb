@@ -12,8 +12,9 @@ describe User do
   describe '#queued?(video)' do
     let(:user) { Fabricate(:user) }
     let(:video) { Fabricate(:video) }
+
     it "returns true if the user already has the video in queue" do
-      queue = QueueItem.create(user: user, video: video, position: 1)
+      Fabricate(:queue_item, user: user, video: video, position: 1)
       expect(user.queued?(video)).to be_truthy
     end
     it "returns false if the user does not have the video in queue" do

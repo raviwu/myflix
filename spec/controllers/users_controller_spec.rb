@@ -1,13 +1,10 @@
 require 'spec_helper'
 
 describe UsersController do
-  let(:valid_user_params) { {email: "test@example.com", fullname: "user", password: "password"} }
-  let(:invalid_user_params) { {fullname: "user", password: "pw"} }
 
   describe "GET new" do
     it "redirect_to home_path if there is current_user" do
-      user = User.create(valid_user_params)
-      session[:user_id] = user.id
+      set_current_user
       get :new
       response.should redirect_to(home_path)
     end
@@ -23,6 +20,14 @@ describe UsersController do
   end
 
   describe "POST create" do
+    let(:valid_user_params) { {
+      email: "test@example.com",
+      fullname: "user",
+      password: "password"} }
+
+    let(:invalid_user_params) { {
+      fullname: "user",
+      password: "pw"} }
     context "with valid user input" do
       before do
         post :create, user: valid_user_params

@@ -1,35 +1,29 @@
 require 'spec_helper'
 
 describe VideosController do
-  let(:user) { Fabricate(:user) }
   let(:video) { Fabricate(:video) }
-  let(:random_query) { Faker::Lorem.word }
-  let(:valid_review_params) { {body: "this is a review", rating: 4} }
-  let(:invalid_review_params) { {body: ""} }
 
   describe "GET index" do
-    it "redirects to sign_in_path when not logged in" do
-      get :index
-      response.should redirect_to(sign_in_path)
+    it_behaves_like "require_sign_in" do
+      let(:action) { get :index }
     end
 
     it "sets the @categories variable with authenticated user" do
-      session[:user_id] = user.id
+      set_current_user
       get :index
       2.times { Fabricate(:category) }
-        assigns(:categories).should eq(Category.all)
+      assigns(:categories).should eq(Category.all)
     end
   end
 
   describe "GET show" do
-    it "redirects to sign_in_path when not logged in" do
-      get :show, id: Faker::Number.digit
-      response.should redirect_to(sign_in_path)
+    it_behaves_like "require_sign_in" do
+      let(:action) { get :show, id: Faker::Number.digit }
     end
 
     context "with authenticated user" do
       before do
-        session[:user_id] = user.id
+        set_current_user
       end
       it "sets the @video variable" do
         get :show, id: video.id
@@ -44,14 +38,15 @@ describe VideosController do
   end
 
   describe "GET search" do
-    it "redirects to sign_in_path when not logged in" do
-      get :search, query: random_query
-      response.should redirect_to(sign_in_path)
+    let(:random_query) { Faker::Lorem.word }
+
+    it_behaves_like "require_sign_in" do
+      let(:action) { get :search, query: random_query }
     end
 
     context "with authenticated user" do
       before do
-        session[:user_id] = user.id
+        set_current_user
       end
       it "sets the @query variable" do
         get :search, query: random_query
@@ -66,14 +61,16 @@ describe VideosController do
   end
 
   describe "POST create_review" do
-    it "redirects to sign_in_path when not logged in" do
-      post :create_review, id: video.id
-      response.should redirect_to(sign_in_path)
+    let(:valid_review_params) { {body: "this is a review", rating: 4} }
+    let(:invalid_review_params) { {body: ""} }
+
+    it_behaves_like "require_sign_in" do
+      let(:action) { post :create_review, id: 2 }
     end
 
     context "with authenticated user" do
       before do
-        session[:user_id] = user.id
+        set_current_user
       end
       it "sets the @review variable with input" do
         post :create_review, id: video.id, review: valid_review_params

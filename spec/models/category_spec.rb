@@ -4,11 +4,11 @@ describe Category do
   it { should have_many :videos }
   it { should validate_presence_of :title}
 
-  let(:comedy) { Category.create(title: 'comedy') }
-  let(:action) { Category.create(title: 'action') }
+  let(:comedy) { Fabricate(:category) }
+  let(:action) { Fabricate(:category) }
 
-  let(:up) { Video.create(title: 'Up', description: 'description') }
-  let(:se7en) { Video.create(title: 'Se7en', description: 'description', created_at: 1.day.ago) }
+  let(:up) { Fabricate(:video, title: 'Up') }
+  let(:se7en) { Fabricate(:video, title: 'Se7en', created_at: 1.day.ago) }
 
   describe "#recent_videos" do
     it "returns videos in created_at desc order" do

@@ -29,7 +29,6 @@ class QueueItemsController < ApplicationController
         end
         queue_owner.normalize_queue_items_position
       end
-
     else
       access_deny
     end
