@@ -41,6 +41,6 @@
                 %span= "Rating: #{review.rating} / 5"
                 %p
                   by
-                  = link_to review.creator.fullname, ""
+                  = link_to review.creator.fullname, user_path(review.creator)
               .col-sm-8
                 %p= review.body

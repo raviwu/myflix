@@ -21,6 +21,6 @@
             %b.caret
           %ul.dropdown-menu(role="menu" aria-labelledby="dlabel")
             %li
-              %a(href="#") Account
+              %a= link_to "Account", user_path(current_user)
               %a(href="#") Plan and Billing
               = link_to "Sign out", sign_out_path, method: :delete

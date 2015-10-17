@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  helper_method :logged_in?, :current_user, :require_user, :access_deny
+  helper_method :logged_in?, :current_user
 
   def log_in(user)
     session[:user_id] = user.id

@@ -52,4 +52,25 @@ describe UsersController do
       response.should render_template :new
     end
   end
+
+  describe "GET show" do
+    it_behaves_like "require_sign_in" do
+      let(:action) { get :show, id: 1 }
+    end
+
+    context "with logged in user" do
+      before do
+        set_current_user
+      end
+      it "sets user variable" do
+        get :show, id: current_user.id
+        expect(assigns(:user)).to be_instance_of(User)
+      end
+      it "renders user page according to the params[:id]" do
+        joe = Fabricate(:user, fullname: 'Joe Doe')
+        get :show, id: joe.id
+        expect(assigns(:user).fullname).to eq('Joe Doe')
+      end
+    end
+  end
 end

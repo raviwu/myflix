@@ -1,6 +1,6 @@
 def set_current_user(user = nil)
   ravi = Fabricate(:user, password: 'password')
-  session[:user_id] = (user.id || ravi.id)
+  session[:user_id] = (user ? user.id : ravi.id)
 end
 
 def current_user
