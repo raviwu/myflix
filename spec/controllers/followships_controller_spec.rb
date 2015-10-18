@@ -23,8 +23,8 @@ describe FollowshipsController do
       it "sets flash[:success]" do
         expect(flash[:success]).to be_present
       end
-      it "redirects to followships path" do
-        expect(response).to redirect_to(followships_path)
+      it "redirects to people_path" do
+        expect(response).to redirect_to(people_path)
       end
     end
     context "logged in user and follow the followed user" do
@@ -43,6 +43,11 @@ describe FollowshipsController do
       it "redirects to user path" do
         expect(response).to redirect_to(user_path(joe))
       end
+    end
+    it "does not allow one to follow themselves" do
+      set_current_user
+      post :create, followee: current_user.id
+      expect(Followship.all.size).to eq(0)
     end
   end
 
@@ -65,8 +70,8 @@ describe FollowshipsController do
       it "sets the flash[:success]" do
         expect(flash[:success]).to be_present
       end
-      it "redirect to followships" do
-        expect(response).to redirect_to(followships_path)
+      it "redirect to people_path" do
+        expect(response).to redirect_to(people_path)
       end
     end
 
@@ -81,7 +86,7 @@ describe FollowshipsController do
         expect(followship).to be_truthy
       end
       it "redirects to root_path" do
-        expect(response).to redirect_to(followships_path)
+        expect(response).to redirect_to(people_path)
       end
     end
   end

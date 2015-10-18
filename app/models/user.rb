@@ -44,4 +44,8 @@ class User < ActiveRecord::Base
     end
   end
 
+  def can_follow?(another_user)
+    !(self == another_user || followed?(another_user))
+  end
+
 end

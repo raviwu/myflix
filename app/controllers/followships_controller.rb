@@ -6,13 +6,13 @@ class FollowshipsController < ApplicationController
 
   def create
     followee = User.find(params[:followee])
-    if current_user.followed?(followee)
-      access_deny
-      redirect_to user_path(followee)
-    else
+    if current_user.can_follow?(followee)
       current_user.follow(followee)
       flash[:success] = "Successfully follow #{followee.fullname}"
-      redirect_to followships_path
+      redirect_to people_path
+    else
+      access_deny
+      redirect_to user_path(followee)
     end
   end
 
@@ -24,6 +24,6 @@ class FollowshipsController < ApplicationController
     else
       access_deny
     end
-    redirect_to followships_path
+    redirect_to people_path
   end
 end

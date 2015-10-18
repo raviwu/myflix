@@ -9,6 +9,7 @@ Myflix::Application.routes.draw do
   delete '/sign_out', to: 'sessions#destroy', as: 'sign_out'
 
   get '/home', to: 'videos#index'
+  get '/people', to: 'followships#index'
   get '/my_queue', to: 'queue_items#index'
 
   put '/update_queue_position', to: 'queue_items#update_position'
@@ -28,5 +29,5 @@ Myflix::Application.routes.draw do
   resources :users, only: [:create, :show]
   resources :sessions, only: [:new, :create]
   resources :queue_items, only: [:destroy]
-  resources :followships, only: [:index, :destroy, :create]
+  resources :followships, only: [:destroy, :create]
 end

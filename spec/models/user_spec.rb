@@ -81,4 +81,19 @@ describe User do
     end
   end
 
+  describe "#can_follow?(another_user)" do
+    let(:joe) { Fabricate(:user) }
+    let(:alice) { Fabricate(:user) }
+    it "returns false if another user is user themselves" do
+      expect(joe.can_follow?(joe)).to be_falsey
+    end
+    it "returns false if user already follow another user" do
+      joe.follow(alice)
+      expect(joe.can_follow?(alice)).to be_falsey
+    end
+    it "returns true if user can follow another user" do
+      expect(joe.can_follow?(alice)).to be_truthy
+    end
+  end
+
 end

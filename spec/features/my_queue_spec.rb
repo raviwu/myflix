@@ -31,8 +31,7 @@ feature "User interact with the queue" do
   end
 
   def add_video_to_my_queue(video)
-    visit home_path
-    click_link(video.title)
+    click_video_on_home_path(video)
     click_link('+ My Queue')
   end
 
@@ -43,7 +42,7 @@ feature "User interact with the queue" do
   end
 
   def check_if_add_queue_button_is_disabled(video)
-    click_link(video.title)
+    click_video_on_home_path(video)
     page.should have_content video.title
     page.should have_css("a.disabled")
   end

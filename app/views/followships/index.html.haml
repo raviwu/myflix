@@ -17,5 +17,5 @@
           %td.extra-padding= followee.queue_items.size
           %td.extra-padding= followee.followers.size
           %td.extra-padding
-            = link_to followship_path(current_user.find_followship(followee)), method: :delete, id: "unfollow_#{followee.id}" do
+            = link_to followship_path(current_user.find_followship(followee)), method: :delete do
               %i.glyphicon.glyphicon-remove
