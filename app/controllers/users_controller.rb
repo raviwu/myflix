@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      AppMailer.welcome_new_user(@user).deliver
       log_in(@user)
       flash[:success] = "Welcome, #{@user.fullname}"
       redirect_to home_path
