@@ -22,16 +22,16 @@ describe UsersController do
   describe "POST create" do
     let(:valid_user_params) { {
       email: "test@example.com",
-      fullname: "user",
+      fullname: "valid_user",
       password: "password"} }
 
     let(:invalid_user_params) { {
-      fullname: "user",
+      email: "invalid@example",
+      fullname: "invalid_user",
       password: "pw"} }
     context "with valid user input" do
-      before do
-        post :create, user: valid_user_params
-      end
+      before { post :create, user: valid_user_params }
+      after { ActionMailer::Base.deliveries.clear }
       it "sets the @user variable" do
         expect(assigns(:user)).to be_instance_of(User)
       end
@@ -45,11 +45,28 @@ describe UsersController do
       it "redirects to home_path if the record is saved" do
         expect(response).to redirect_to(home_path)
       end
+      it "sends out the email" do
+        expect(ActionMailer::Base.deliveries).not_to be_empty
+      end
+      it "sends to correct recipient" do
+        mail = ActionMailer::Base.deliveries.last
+        expect(mail.to).to eq(['test@example.com'])
+      end
+      it "contains correct content" do
+        mail = ActionMailer::Base.deliveries.last
+        expect(mail.body).to include('Welcome, valid_user.')
+      end
     end
 
-    it "renders the new template if the input params is invalid" do
-      post :create, user: invalid_user_params
-      expect(response).to render_template(:new)
+    context "with invalid input" do
+      before { post :create, user: invalid_user_params }
+      after { ActionMailer::Base.deliveries.clear }
+      it "renders the new template" do
+        expect(response).to render_template(:new)
+      end
+      it "does not send out email" do
+        expect(ActionMailer::Base.deliveries).to be_empty
+      end
     end
   end
 
