@@ -7,11 +7,11 @@ describe SessionsController do
     it "redirect_to home_path if there is current_user" do
       set_current_user
       get :new
-      response.should redirect_to(home_path)
+      expect(response).to redirect_to(home_path)
     end
     it "renders the new template" do
       get :new
-      response.should render_template :new
+      expect(response).to render_template(:new)
     end
   end
 
@@ -22,10 +22,10 @@ describe SessionsController do
         post :create, email: user.email, password: "password"
       end
       it "redirects to home_path if authentication succeeds" do
-        response.should redirect_to(home_path)
+        expect(response).to redirect_to(home_path)
       end
       it "sets the flash[:success]" do
-        expect(flash[:success]).not_to be_blank
+        expect(flash[:success]).to be_present
       end
     end
 
@@ -34,10 +34,10 @@ describe SessionsController do
         post :create, email: user.email, password: "pw"
       end
       it "redirects to sign_in_path if authentication fails" do
-        response.should redirect_to(sign_in_path)
+        expect(response).to redirect_to(sign_in_path)
       end
       it "sets the flash[:danger]" do
-        expect(flash[:danger]).not_to be_blank
+        expect(flash[:danger]).to be_present
       end
     end
   end
@@ -51,10 +51,10 @@ describe SessionsController do
       expect(session[:user_id]).to be_nil
     end
     it "redirects to root_path" do
-      response.should redirect_to(root_path)
+      expect(response).to redirect_to(root_path)
     end
     it "sets the flash[:info]" do
-      expect(flash[:info]).not_to be_blank
+      expect(flash[:info]).to be_present
     end
   end
 end

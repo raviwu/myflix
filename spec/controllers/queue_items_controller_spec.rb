@@ -30,7 +30,7 @@ describe QueueItemsController do
         post :create, id: video.id
       end
       it "sets the @queue_item variable" do
-        assigns(:queue_item).should be_instance_of(QueueItem)
+        expect(assigns(:queue_item)).to be_instance_of(QueueItem)
       end
       it "creates the @queue_item associated with video" do
         expect(assigns(:queue_item).video).to eq(video)
@@ -45,7 +45,7 @@ describe QueueItemsController do
         expect(flash[:danger]).not_to be_nil
       end
       it "redirects to video show page if the queue is not saved" do
-        response.should redirect_to video_path(video)
+        expect(response).to redirect_to(video_path(video))
       end
     end
 
@@ -62,10 +62,10 @@ describe QueueItemsController do
         expect(current_user.queue_items.last.position).to eq(3)
       end
       it "sets the flash[:success]" do
-        expect(flash[:success]).not_to be_nil
+        expect(flash[:success]).to be_present
       end
       it "redirect to my_queue_path after the queue_item is saved" do
-        response.should redirect_to my_queue_path
+        expect(response).to redirect_to(my_queue_path)
       end
     end
   end
@@ -96,10 +96,10 @@ describe QueueItemsController do
         put :update_position, queue_items: valid_params
       end
       it "redirect to my_queue_path of not authenticated user" do
-        response.should redirect_to my_queue_path
+        expect(response).to redirect_to(my_queue_path)
       end
       it "sets flash[:danger]" do
-        expect(flash[:danger]).not_to be_nil
+        expect(flash[:danger]).to be_present
       end
     end
 
@@ -159,10 +159,10 @@ describe QueueItemsController do
         delete :destroy, id: queue_item.id
       end
       it "redirects to root_path when current_user is not queue item owner" do
-        response.should redirect_to(root_path)
+        expect(response).to redirect_to(root_path)
       end
       it "sets flash[:danger] when current_user is not queue item owner" do
-        expect(flash[:danger]).not_to be_nil
+        expect(flash[:danger]).to be_present
       end
     end
     context "with authenticated user" do
@@ -180,7 +180,7 @@ describe QueueItemsController do
         expect(current_user.queue_items.last.position).to eq(2)
       end
       it "redirect to my_queue_path" do
-        response.should redirect_to(my_queue_path)
+        expect(response).to redirect_to(my_queue_path)
       end
     end
   end

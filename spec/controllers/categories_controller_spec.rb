@@ -12,7 +12,7 @@ describe CategoriesController do
       set_current_user
       category = Fabricate(:category)
       get :show, id: category.id
-      assigns(:category).should eq(category)
+      expect(assigns(:category)).to eq(category)
     end
   end
 end
