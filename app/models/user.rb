@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
   validates :fullname, presence: true
   validates :password, length: { minimum: 6 }
 
+  before_create :generate_token
+
   def queued?(video)
     !QueueItem.where(user: self, video: video).empty?
   end
@@ -46,6 +48,10 @@ class User < ActiveRecord::Base
 
   def can_follow?(another_user)
     !(self == another_user || followed?(another_user))
+  end
+
+  def generate_token
+    self.token = SecureRandom.urlsafe_base64
   end
 
 end

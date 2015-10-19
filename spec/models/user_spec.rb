@@ -13,6 +13,11 @@ describe User do
   it { should have_secure_password }
   it { should validate_length_of :password}
 
+  it "generate a random token when the user is created" do
+    alice = Fabricate(:user)
+    expect(alice.token).to be_present
+  end
+
   describe '#queued?(video)' do
     let(:user) { Fabricate(:user) }
     let(:video) { Fabricate(:video) }
