@@ -4,21 +4,31 @@ Myflix::Application.routes.draw do
   root 'application#front_page'
 
   get '/register', to: 'users#new'
+  resources :users, only: [:create, :show]
 
   get '/forgot_password', to: 'forgot_passwords#new'
   get '/confirm_password_reset', to: 'forgot_passwords#confirm'
+  resources :forgot_passwords, only: [:create]
+
   get '/expired_token', to: 'password_resets#expired'
+  resources :password_resets, only: [:show, :create]
 
   get '/sign_in', to: 'sessions#new', as: 'sign_in'
   delete '/sign_out', to: 'sessions#destroy', as: 'sign_out'
+  resources :sessions, only: [:create]
 
-  get '/home', to: 'videos#index'
   get '/people', to: 'followships#index'
-  get '/my_queue', to: 'queue_items#index'
+  resources :followships, only: [:destroy, :create]
 
+  get '/my_queue', to: 'queue_items#index'
   put '/update_queue_position', to: 'queue_items#update_position'
   patch '/update_queue_position', to: 'queue_items#update_position'
+  resources :queue_items, only: [:destroy]
 
+  get '/invite', to: 'invite_users#new'
+  resources :invite_users, only: [:create]
+
+  get '/home', to: 'videos#index'
   resources :videos, only: [:index, :show] do
     collection do
       get 'search', to: 'videos#search'
@@ -30,10 +40,5 @@ Myflix::Application.routes.draw do
   end
 
   resources :categories, only: [:show]
-  resources :users, only: [:create, :show]
-  resources :sessions, only: [:new, :create]
-  resources :queue_items, only: [:destroy]
-  resources :followships, only: [:destroy, :create]
-  resources :forgot_passwords, only: [:create]
-  resources :password_resets, only: [:show, :create]
+
 end

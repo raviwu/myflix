@@ -1,0 +1,11 @@
+!!! 5
+%html(lang="en-US")
+  %body
+    %section.container
+      %h2
+        = "Hi, #{@name}."
+      %p= @message
+      %p= link_to 'Join Me on MyFLix', register_url(fullname: @name, email: @email, referor_email: @invitor.email)
+
+    %footer
+      &copy 2013 MyFLiX

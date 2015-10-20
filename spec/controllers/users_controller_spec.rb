@@ -23,12 +23,20 @@ describe UsersController do
     let(:valid_user_params) { {
       email: "test@example.com",
       fullname: "valid_user",
-      password: "password"} }
+      password: "password",
+      referor_email: nil} }
+
+    let(:valid_user_params_with_referor) { {
+      email: "test@example.com",
+      fullname: "valid_user",
+      password: "password",
+      referor_email: Fabricate(:user, email: 'existed@user.com').email } }
 
     let(:invalid_user_params) { {
       email: "invalid@example",
       fullname: "invalid_user",
-      password: "pw"} }
+      password: "pw",
+      referor_email: nil} }
     context "with valid user input" do
       before { post :create, user: valid_user_params }
       after { ActionMailer::Base.deliveries.clear }
@@ -66,6 +74,16 @@ describe UsersController do
       end
       it "does not send out email" do
         expect(ActionMailer::Base.deliveries).to be_empty
+      end
+    end
+
+    context "with referor" do
+      before do
+        post :create, user: valid_user_params_with_referor
+      end
+      it "creates mutual followships between user and referor" do
+        expect(assigns(:user).followers).to include(assigns(:user).referor)
+        expect(assigns(:user).followees).to include(assigns(:user).referor)
       end
     end
   end

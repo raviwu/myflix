@@ -54,4 +54,8 @@ class User < ActiveRecord::Base
     self.token = SecureRandom.urlsafe_base64
   end
 
+  def referor
+    User.find_by(email: referor_email)
+  end
+
 end

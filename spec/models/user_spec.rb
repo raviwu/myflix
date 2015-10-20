@@ -101,4 +101,12 @@ describe User do
     end
   end
 
+  describe '#referor' do
+    let(:joe) { Fabricate(:user) }
+    let(:alice) { Fabricate(:user, referor_email: joe.email) }
+    it "returns referor of the user" do
+      expect(alice.referor).to eq(joe)
+    end
+  end
+
 end
