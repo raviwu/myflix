@@ -12,12 +12,11 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      @user.add_referor(user_params[:referor_email])
       AppMailer.welcome_new_user(@user).deliver
       flash[:success] = "Welcome, #{@user.fullname}"
       log_in(@user)
-
-      follow_and_followed_by_referor
-
+      create_mutual_followships_with_referor if current_user.referor
       redirect_to home_path
     else
       render 'new'
@@ -34,10 +33,8 @@ class UsersController < ApplicationController
     params.require(:user).permit(:email, :fullname, :password, :referor_email)
   end
 
-  def follow_and_followed_by_referor
-    referor = User.find_by(email: user_params[:referor_email]) || nil
-
-    current_user.follow(referor) if referor
-    referor.follow(current_user) if referor && referor.can_follow?(current_user)
+  def create_mutual_followships_with_referor
+    current_user.followees << current_user.referor
+    current_user.followers << current_user.referor
   end
 end

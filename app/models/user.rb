@@ -58,4 +58,8 @@ class User < ActiveRecord::Base
     User.find_by(email: referor_email)
   end
 
+  def add_referor(email)
+    self.referor_email = User.find_by(email: email) ? email : nil
+  end
+
 end

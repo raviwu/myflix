@@ -12,10 +12,10 @@ describe InviteUsersController do
 
     context 'with valid input' do
       before do
+        ActionMailer::Base.deliveries.clear
         set_current_user
         post :create, fullname: fullname, email: email, message: message
       end
-      after { ActionMailer::Base.deliveries.clear }
       it 'redirects to home_path' do
         expect(response).to redirect_to(home_path)
       end

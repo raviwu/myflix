@@ -101,6 +101,15 @@ describe User do
     end
   end
 
+  describe "#add_referor(referor_email)" do
+    let(:joe) { Fabricate(:user) }
+    let(:alice) { Fabricate(:user) }
+    it "adds referor_email to column" do
+      alice.add_referor(joe.email)
+      expect(alice.referor).to eq(joe)
+    end
+  end
+
   describe '#referor' do
     let(:joe) { Fabricate(:user) }
     let(:alice) { Fabricate(:user, referor_email: joe.email) }

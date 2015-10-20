@@ -38,8 +38,10 @@ describe UsersController do
       password: "pw",
       referor_email: nil} }
     context "with valid user input" do
-      before { post :create, user: valid_user_params }
-      after { ActionMailer::Base.deliveries.clear }
+      before do
+        ActionMailer::Base.deliveries.clear
+        post :create, user: valid_user_params
+      end
       it "sets the @user variable" do
         expect(assigns(:user)).to be_instance_of(User)
       end
@@ -67,8 +69,10 @@ describe UsersController do
     end
 
     context "with invalid input" do
-      before { post :create, user: invalid_user_params }
-      after { ActionMailer::Base.deliveries.clear }
+      before do
+        ActionMailer::Base.deliveries.clear
+        post :create, user: invalid_user_params
+      end
       it "renders the new template" do
         expect(response).to render_template(:new)
       end

@@ -28,10 +28,10 @@ describe ForgotPasswordsController do
 
     context 'with correct email' do
       before do
+        ActionMailer::Base.deliveries.clear
         Fabricate(:user, fullname: 'Joe Doe', email: 'joe@example.com')
         post :create, email: 'joe@example.com'
       end
-      after { ActionMailer::Base.deliveries.clear }
       it 'sends out email to user email' do
         expect(ActionMailer::Base.deliveries.size).to eq(1)
       end
