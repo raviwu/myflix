@@ -19,6 +19,12 @@ def sign_in(a_user = nil)
   click_button 'Sign in'
 end
 
+def sign_in_with_email_and_password_on_signin_page(email, password)
+  fill_in 'Email Address', with: email
+  fill_in 'Password', with: password
+  click_button 'Sign in'
+end
+
 def click_video_on_home_path(video)
   visit home_path
   find(:xpath, "//a/img[@alt='#{video.title}']/..").click

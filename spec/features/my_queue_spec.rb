@@ -37,14 +37,14 @@ feature "User interact with the queue" do
 
   def expect_video_be_in_queue(video)
     visit my_queue_path
-    page.should have_content "My Queue"
-    page.should have_content video.title
+    expect(page).to have_content "My Queue"
+    expect(page).to have_content video.title
   end
 
   def check_if_add_queue_button_is_disabled(video)
     click_video_on_home_path(video)
-    page.should have_content video.title
-    page.should have_css("a.disabled")
+    expect(page).to have_content video.title
+    expect(page).to have_css("a.disabled")
   end
 
   def set_video_order_in_my_queue(video, order)
@@ -63,6 +63,6 @@ feature "User interact with the queue" do
 
   scenario "with invalid user" do
     visit videos_path
-    page.should have_content 'Sign in'
+    expect(page).to have_content 'Sign in'
   end
 end

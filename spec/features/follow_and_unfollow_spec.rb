@@ -29,7 +29,7 @@ feature "User follow and unfollow another user" do
 
   def visit_video_page_from_home_page(video)
     click_video_on_home_path(video)
-    page.should have_content video.title
+    expect(page).to have_content video.title
   end
 
   def visit_user_page_from_video_page_and_follow(followee)
@@ -39,12 +39,12 @@ feature "User follow and unfollow another user" do
 
   def check_followships_and_flash_after_follow(follower, followee)
     expect(follower.followed?(followee)).to be_truthy
-    page.should have_content "Successfully follow #{followee.fullname}"
+    expect(page).to have_content "Successfully follow #{followee.fullname}"
   end
 
   def check_follow_link_being_disabled(followee)
     visit user_path(followee)
-    page.should have_css("a.disabled")
+    expect(page).to have_css("a.disabled")
   end
 
   def remove_followship_from_followships_list(followee)
@@ -56,7 +56,7 @@ feature "User follow and unfollow another user" do
 
   def check_unfollow_status(follower, followee)
     expect(follower.followed?(followee)).to be_falsey
-    page.should have_content "Successfully unfollow #{followee.fullname}."
+    expect(page).to have_content "Successfully unfollow #{followee.fullname}."
   end
 
 end
