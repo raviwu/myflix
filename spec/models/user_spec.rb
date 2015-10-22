@@ -5,6 +5,7 @@ describe User do
   it { should have_many(:queue_items).order('position').dependent(:destroy) }
   it { should have_many(:followings).dependent(:destroy) }
   it { should have_many(:followeds).dependent(:destroy) }
+  it { should have_many(:invitations).dependent(:destroy) }
   it { should have_many :followees }
   it { should have_many :followers }
   it { should validate_presence_of :email }
@@ -98,23 +99,6 @@ describe User do
     end
     it "returns true if user can follow another user" do
       expect(joe.can_follow?(alice)).to be_truthy
-    end
-  end
-
-  describe "#add_referor(referor_email)" do
-    let(:joe) { Fabricate(:user) }
-    let(:alice) { Fabricate(:user) }
-    it "adds referor_email to column" do
-      alice.add_referor(joe.email)
-      expect(alice.referor).to eq(joe)
-    end
-  end
-
-  describe '#referor' do
-    let(:joe) { Fabricate(:user) }
-    let(:alice) { Fabricate(:user, referor_email: joe.email) }
-    it "returns referor of the user" do
-      expect(alice.referor).to eq(joe)
     end
   end
 

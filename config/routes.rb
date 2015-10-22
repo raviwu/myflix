@@ -5,6 +5,8 @@ Myflix::Application.routes.draw do
 
   get '/register', to: 'users#new'
   resources :users, only: [:create, :show]
+  get '/register/:token', to: 'users#new_with_invitation_token', as: 'register_with_token'
+  get '/expired_invitation', to: 'invitations#expired', as: 'expired_invitation_token'
 
   get '/forgot_password', to: 'forgot_passwords#new'
   get '/confirm_password_reset', to: 'forgot_passwords#confirm'
@@ -25,8 +27,8 @@ Myflix::Application.routes.draw do
   patch '/update_queue_position', to: 'queue_items#update_position'
   resources :queue_items, only: [:destroy]
 
-  get '/invite', to: 'invite_users#new'
-  resources :invite_users, only: [:create]
+  get '/invite', to: 'invitations#new'
+  resources :invitations, only: [:create]
 
   get '/home', to: 'videos#index'
   resources :videos, only: [:index, :show] do

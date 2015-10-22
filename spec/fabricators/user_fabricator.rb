@@ -3,5 +3,4 @@ Fabricator(:user) do
   fullname { Faker::Name.name }
   password { 'password' }
   token { SecureRandom.urlsafe_base64 }
-  referor_email { nil }
 end

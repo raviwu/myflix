@@ -10,8 +10,8 @@ describe UsersController do
     end
     it "sets the @user variable if there is no current_user" do
       get :new
-      assigns(:user).should be_new_record
-      assigns(:user).should be_instance_of(User)
+      expect(assigns(:user)).to be_new_record
+      expect(assigns(:user)).to be_instance_of(User)
     end
     it "renders the new template" do
       get :new
@@ -19,24 +19,48 @@ describe UsersController do
     end
   end
 
+  describe "GET new_with_invitation_token" do
+    it "redirect_to home_path if there is current_user" do
+      set_current_user
+      get :new_with_invitation_token, token: "12345"
+      expect(response).to redirect_to(home_path)
+    end
+    context "with valid token" do
+      let(:joe) { Fabricate(:user) }
+      let(:invitation) { Fabricate(:invitation, invitor: joe, recipient_fullname: 'Alice', recipient_email: 'alice@exapmle.com') }
+      before do
+        get :new_with_invitation_token, token: invitation.token
+      end
+      it "sets the @user variable" do
+        expect(assigns(:user)).to be_new_record
+        expect(assigns(:user)).to be_instance_of(User)
+      end
+      it "sets the @invitation variable" do
+        expect(assigns(:invitation)).to be_instance_of(Invitation)
+      end
+      it "match the @user's info with @invitaion recipient info" do
+        expect(assigns(:user).fullname).to eq('Alice')
+        expect(assigns(:user).email).to eq('alice@exapmle.com')
+      end
+    end
+    context "with invalid token" do
+      it "redirect to expired_invitation_token" do
+        get :new_with_invitation_token, token: '12345'
+        expect(response).to redirect_to(expired_invitation_token_path)
+      end
+    end
+  end
+
   describe "POST create" do
     let(:valid_user_params) { {
       email: "test@example.com",
       fullname: "valid_user",
-      password: "password",
-      referor_email: nil} }
-
-    let(:valid_user_params_with_referor) { {
-      email: "test@example.com",
-      fullname: "valid_user",
-      password: "password",
-      referor_email: Fabricate(:user, email: 'existed@user.com').email } }
+      password: "password"} }
 
     let(:invalid_user_params) { {
       email: "invalid@example",
       fullname: "invalid_user",
-      password: "pw",
-      referor_email: nil} }
+      password: "pw"} }
     context "with valid user input" do
       before do
         ActionMailer::Base.deliveries.clear
@@ -81,13 +105,27 @@ describe UsersController do
       end
     end
 
-    context "with referor" do
+    context "with invitation token and valid input" do
+      let(:joe) { Fabricate(:user) }
+      let(:invitation) { Fabricate(:invitation, invitor: joe, recipient_fullname: 'Alice', recipient_email: 'alice@exapmle.com') }
       before do
-        post :create, user: valid_user_params_with_referor
+        ActionMailer::Base.deliveries.clear
+        post :create, user: {
+          email: "alice@example.com",
+          fullname: "Alice",
+          password: "password",
+          invitation_token: invitation.token}
       end
-      it "creates mutual followships between user and referor" do
-        expect(assigns(:user).followers).to include(assigns(:user).referor)
-        expect(assigns(:user).followees).to include(assigns(:user).referor)
+      it "sets the new user follow the invitor" do
+        alice = User.last
+        expect(alice.followed?(joe)).to be_truthy
+      end
+      it "sets the invitor follow the new user" do
+        alice = User.last
+        expect(joe.followed?(alice)).to be_truthy
+      end
+      it "expired the invitation token" do
+        expect(assigns(:invitation).token).to be_nil
       end
     end
   end

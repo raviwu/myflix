@@ -20,7 +20,7 @@ def sign_in(a_user = nil)
 end
 
 def sign_out
-  Capybara.current_session.driver.delete sign_out_path
+  page.find(:css, "a[href='#{sign_out_path}']").click
 end
 
 def sign_in_with_email_and_password_on_signin_page(email, password)

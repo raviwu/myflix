@@ -1,6 +1,10 @@
 class User < ActiveRecord::Base
+  include Tokenable
+
   has_many :reviews, dependent: :destroy
   has_many :queue_items, -> { order('position') }, dependent: :destroy
+
+  has_many :invitations, dependent: :destroy
 
   has_many :followings, class_name: 'Followship', foreign_key: 'follower_id', dependent: :destroy
   has_many :followeds, class_name: 'Followship', foreign_key: 'followee_id', dependent: :destroy
@@ -13,8 +17,6 @@ class User < ActiveRecord::Base
   validates :email, presence: true, uniqueness: true, format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }
   validates :fullname, presence: true
   validates :password, length: { minimum: 6 }
-
-  before_create :generate_token
 
   def queued?(video)
     !QueueItem.where(user: self, video: video).empty?
@@ -48,18 +50,6 @@ class User < ActiveRecord::Base
 
   def can_follow?(another_user)
     !(self == another_user || followed?(another_user))
-  end
-
-  def generate_token
-    self.token = SecureRandom.urlsafe_base64
-  end
-
-  def referor
-    User.find_by(email: referor_email)
-  end
-
-  def add_referor(email)
-    self.referor_email = User.find_by(email: email) ? email : nil
   end
 
 end
