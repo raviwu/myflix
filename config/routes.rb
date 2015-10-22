@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Myflix::Application.routes.draw do
   get 'ui(/:action)', controller: 'ui'
 
@@ -42,5 +44,12 @@ Myflix::Application.routes.draw do
   end
 
   resources :categories, only: [:show]
+
+  mount Sidekiq::Web => '/sidekiq'
+
+  Sidekiq::Web.use(Rack::Auth::Basic) do |user, password|
+    user = ENV["SIDEKIQ_USERNAME"]
+    password == ENV["SIDEKIQ_PASSWORD"]
+  end if Rails.env.production?
 
 end

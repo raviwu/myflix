@@ -14,6 +14,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'fabrication'
 gem 'faker'
 gem 'sidekiq'
+gem 'sinatra', require: false
+gem 'slim'
 
 group :development do
   gem 'thin'
