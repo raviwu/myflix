@@ -27,7 +27,7 @@ describe InvitationsController do
     context "with valid user input" do
       before do
         set_current_user
-        ActionMailer::Base.deliveries.clear
+        clear_emailer_deliveries
         post :create, invitation: valid_invitation_params
       end
       it "sets the @invitation variable" do
@@ -63,7 +63,7 @@ describe InvitationsController do
     context "with invalid input" do
       before do
         set_current_user
-        ActionMailer::Base.deliveries.clear
+        clear_emailer_deliveries
         post :create, invitation: invalid_invitation_params
       end
       it "renders the new template" do

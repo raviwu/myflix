@@ -28,7 +28,7 @@ describe ForgotPasswordsController do
 
     context 'with correct email' do
       before do
-        ActionMailer::Base.deliveries.clear
+        clear_emailer_deliveries
         Fabricate(:user, fullname: 'Joe Doe', email: 'joe@example.com')
         post :create, email: 'joe@example.com'
       end

@@ -63,7 +63,7 @@ describe UsersController do
       password: "pw"} }
     context "with valid user input" do
       before do
-        ActionMailer::Base.deliveries.clear
+        clear_emailer_deliveries
         post :create, user: valid_user_params
       end
       it "sets the @user variable" do
@@ -94,7 +94,7 @@ describe UsersController do
 
     context "with invalid input" do
       before do
-        ActionMailer::Base.deliveries.clear
+        clear_emailer_deliveries
         post :create, user: invalid_user_params
       end
       it "renders the new template" do
@@ -109,7 +109,7 @@ describe UsersController do
       let(:joe) { Fabricate(:user) }
       let(:invitation) { Fabricate(:invitation, invitor: joe, recipient_fullname: 'Alice', recipient_email: 'alice@exapmle.com') }
       before do
-        ActionMailer::Base.deliveries.clear
+        clear_emailer_deliveries
         post :create, user: {
           email: "alice@example.com",
           fullname: "Alice",
