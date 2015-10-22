@@ -11,6 +11,6 @@ class AppMailer < ActionMailer::Base
 
   def invite_user(invitation)
     @invitation = invitation
-    mail from: 'noreply@myflixapp.com', to: @invitation.recipient_email, subject: "Join #{@invitation.invitor} on MyFLix!"
+    mail from: 'noreply@myflixapp.com', to: @invitation.recipient_email, subject: "Join #{@invitation.invitor.fullname} on MyFLix!"
   end
 end
