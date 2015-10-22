@@ -11,10 +11,6 @@ def clear_current_user
   session[:user_id] = nil
 end
 
-def clear_emailer_deliveries
-  ActionMailer::Base.deliveries.clear
-end
-
 def sign_in(a_user = nil)
   user = a_user || Fabricate(:user, password: 'password')
   visit sign_in_path

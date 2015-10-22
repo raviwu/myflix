@@ -13,6 +13,7 @@ gem 'bootstrap_form', '2.3.0'
 gem 'bcrypt', '~> 3.1.7'
 gem 'fabrication'
 gem 'faker'
+gem 'sidekiq'
 
 group :development do
   gem 'thin'

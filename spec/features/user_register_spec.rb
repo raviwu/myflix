@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 feature "Signing in" do
-  background do
-    clear_emailer_deliveries
-  end
   scenario "with valid signin info" do
     visit register_path
     fill_in 'Email Address', with: 'foo@bar.com'

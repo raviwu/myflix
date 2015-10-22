@@ -9,7 +9,7 @@ class InvitationsController < ApplicationController
     @invitation = Invitation.new(invitation_params)
     @invitation.invitor = current_user
     if @invitation.save
-      AppMailer.invite_user(@invitation).deliver
+      AppMailer.delay.invite_user(@invitation)
       flash[:success] = "You've successfully invite #{@invitation.recipient_fullname} to join MyFlix!"
       redirect_to home_path
     else

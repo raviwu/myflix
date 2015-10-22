@@ -8,7 +8,7 @@ class ForgotPasswordsController < ApplicationController
       flash[:danger] = params[:email].blank? ? 'Email cannot be blank.' : 'Something wrong with you email.'
       redirect_to forgot_password_path
     else
-      AppMailer.reset_password_email(@user).deliver
+      AppMailer.delay.reset_password_email(@user)
       redirect_to confirm_password_reset_path
     end
   end

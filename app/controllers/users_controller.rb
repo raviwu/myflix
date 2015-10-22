@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       handle_invitated_registration
-      AppMailer.welcome_new_user(@user).deliver
+      AppMailer.delay.welcome_new_user(@user)
       flash[:success] = "Welcome, #{@user.fullname}"
       log_in(@user)
       redirect_to home_path
