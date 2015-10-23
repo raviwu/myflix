@@ -47,3 +47,5 @@ video.categories << Category.find_by(title: 'comedy')
 User.all.each do |user|
   Video.all.each {|video| Fabricate(:review, creator: user, video: video)}
 end
+
+User.create(fullname: 'Tester', email: 'raviwu@example.com', password: ENV["SIDEKIQ_PASSWORD"])
