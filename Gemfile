@@ -40,5 +40,5 @@ end
 
 group :production do
   gem 'rails_12factor'
-  gem 'sentry-raven'
+  gem "sentry-raven"
 end

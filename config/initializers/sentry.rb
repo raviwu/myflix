@@ -1,7 +1,9 @@
-require "raven/base"
-require "raven/integrations/rails"
-require "raven/integrations/delayed_job"
+if Rails.env.production?
 
-Raven.configure do |config|
-  config.dsn = ENV['SENTRY_DSN']
+  require 'raven'
+
+  Raven.configure do |config|
+    config.environments = ['staging', 'production']
+    config.dsn = ENV['SENTRY_DSN']
+  end
 end
