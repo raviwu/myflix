@@ -29,4 +29,6 @@ Myflix::Application.configure do
     authentication:       'plain',
     enable_starttls_auto: true  }
 
+  ENV['DATABASE_URL'] = "postgres://losuyycpdtacix:PHyDY_jlkIeIwycjmgxtX-5PNb@ec2-54-225-194-162.compute-1.amazonaws.com:5432/d3htjna1joeok"
+
 end
