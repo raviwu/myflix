@@ -1,5 +1,4 @@
-class FollowshipsController < ApplicationController
-  before_action :require_user
+class FollowshipsController < AuthenticatedController
 
   def index
   end
