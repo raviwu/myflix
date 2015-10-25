@@ -1,6 +1,6 @@
 CarrierWave.configure do |config|
   if Rails.env.staging? || Rails.env.production?
-    require 'aws-sdk'
+    # require 'aws-sdk'
 
     config.storage    = :aws
     config.aws_bucket = ENV.fetch('S3_BUCKET_NAME')
