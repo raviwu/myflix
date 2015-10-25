@@ -42,6 +42,9 @@ end
 
 group :production, :staging do
   gem 'rails_12factor'
-  gem "sentry-raven"
   gem 'carrierwave-aws'
+end
+
+group :production do
+  gem 'sentry-raven'
 end
