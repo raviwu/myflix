@@ -1,14 +1,14 @@
 CarrierWave.configure do |config|
   if Rails.env.staging? || Rails.env.production?
     require 'aws-sdk'
-    
+
     config.storage    = :aws
     config.aws_bucket = ENV.fetch('S3_BUCKET_NAME')
     config.aws_acl    = 'public-read'
 
     # Optionally define an asset host for configurations that are fronted by a
     # content host, such as CloudFront.
-    config.asset_host = 'http://example.com'
+    # config.asset_host = 'http://example.com'
 
     # The maximum period for authenticated_urls is only 7 days.
     config.aws_authenticated_url_expiration = 60 * 60 * 24 * 7
@@ -27,7 +27,7 @@ CarrierWave.configure do |config|
 
     # Optional: Signing of download urls, e.g. for serving private
     # content through CloudFront.
-    config.aws_signer = -> (unsigned_url, options) { Aws::CF::Signer.sign_url unsigned_url, options }
+    # config.aws_signer = -> (unsigned_url, options) { Aws::CF::Signer.sign_url unsigned_url, options }
   else
     config.storage = :file
     config.enable_processing = Rails.env.development?

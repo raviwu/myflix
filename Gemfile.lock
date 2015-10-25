@@ -29,12 +29,14 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.3.8)
     arel (5.0.1.20140414130214)
-    aws-sdk (2.1.31)
-      aws-sdk-resources (= 2.1.31)
-    aws-sdk-core (2.1.31)
+    aws-sdk (2.0.48)
+      aws-sdk-resources (= 2.0.48)
+    aws-sdk-core (2.0.48)
+      builder (~> 3.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.1.31)
-      aws-sdk-core (= 2.1.31)
+      multi_json (~> 1.0)
+    aws-sdk-resources (2.0.48)
+      aws-sdk-core (= 2.0.48)
     bcrypt (3.1.10)
     better_errors (1.0.1)
       coderay (>= 1.0.0)
@@ -247,7 +249,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aws-sdk
+  aws-sdk (~> 2.0.22)
   bcrypt (~> 3.1.7)
   better_errors
   binding_of_caller
