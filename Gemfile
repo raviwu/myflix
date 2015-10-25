@@ -41,9 +41,9 @@ group :test do
 end
 
 group :production, :staging do
+  gem 'aws-sdk'
   gem 'rails_12factor'
   gem 'carrierwave-aws'
-  gem 'aws-sdk'
 end
 
 group :production do
