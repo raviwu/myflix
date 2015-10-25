@@ -1,7 +1,6 @@
 run_sidekiq_in_this_thread = %w(staging).include?(ENV['RAILS_ENV'])
 worker_processes (run_sidekiq_in_this_thread ? 2 : 3)
 worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
-timeout 15
 preload_app true
 @sidekiq_pid = nil
 

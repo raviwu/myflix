@@ -11,7 +11,3 @@ categories = %w(action drama comedy)
 categories.each do |category|
   Category.create(title: category)
 end
-
-User.create(fullname: 'Ravi Wu', email: 'raviwu@gmail.com', password: 'password', admin: true)
-
-User.create(fullname: 'Ravi Wu', email: 'raviwu@example.com', password: ENV["SIDEKIQ_PASSWORD"])
