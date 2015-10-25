@@ -249,7 +249,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aws-sdk (~> 2.0.22)
   bcrypt (~> 3.1.7)
   better_errors
   binding_of_caller
