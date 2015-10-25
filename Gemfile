@@ -19,6 +19,7 @@ gem 'slim'
 gem 'unicorn'
 gem 'carrierwave'
 gem 'mini_magick'
+gem 'aws-sdk'
 
 group :development do
   gem 'thin'
@@ -41,7 +42,6 @@ group :test do
 end
 
 group :production, :staging do
-  gem 'aws-sdk'
   gem 'rails_12factor'
   gem 'carrierwave-aws'
 end
