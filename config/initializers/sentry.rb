@@ -1,7 +1,7 @@
-if Rails.env.production?
+if Rails.env.production? || Rails.env.staging?
   require 'raven'
   Raven.configure do |config|
-    config.environments = ['production']
+    config.environments = ['staging', 'production']
     config.dsn = ENV['SENTRY_DSN']
   end
 end
