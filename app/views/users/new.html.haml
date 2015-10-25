@@ -9,4 +9,5 @@
           = f.email_field :email, label: "Email Address"
           = f.password_field :password, help: "Must be at least 6 characters long"
           = f.text_field :fullname, label: "Full Name"
-          = f.submit "Sign Up", class: 'btn btn-default col-sm-offset-2'
+        %fieldset.actions
+          = f.submit "Sign Up", class: 'btn btn-default col-md-offset-2'
