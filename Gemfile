@@ -19,7 +19,8 @@ gem 'slim'
 gem 'unicorn'
 gem 'carrierwave'
 gem 'mini_magick'
-# gem 'aws-sdk', '~> 2.0.22'
+gem 'stripe'
+gem 'figaro'
 
 group :development do
   gem 'thin'

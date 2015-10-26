@@ -26,10 +26,23 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       handle_invitated_registration
-      AppMailer.delay.welcome_new_user(@user)
-      flash[:success] = "Welcome, #{@user.fullname}"
-      log_in(@user)
-      redirect_to home_path
+      Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+      token = params[:stripeToken]
+      begin
+        charge = Stripe::Charge.create(
+          :amount => 999,
+          :currency => "usd",
+          :source => token,
+          :description => "Registration Charge for #{@user.email}"
+        )
+        AppMailer.delay.welcome_new_user(@user)
+        flash[:success] = "Welcome, #{@user.fullname}"
+        log_in(@user)
+        redirect_to home_path
+      rescue Stripe::CardError => e
+        flash[:danger] = e.message
+        render 'new'
+      end
     else
       render 'new'
     end
