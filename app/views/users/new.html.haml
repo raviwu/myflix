@@ -1,7 +1,7 @@
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
 <script type="text/javascript">
-Stripe.setPublishableKey("#{ENV['STRIPE_PUBLISHABLE_KEY']}");
+Stripe.setPublishableKey("#{Rails.env.production? ? ENV['STRIPE_LIVE_PUB_KEY'] : 'sk_test_2gB1xh7jwrowOkemhCZrhR4N'}");
 </script>
 
 = javascript_include_tag 'payment'

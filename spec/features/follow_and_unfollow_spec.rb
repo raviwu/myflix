@@ -3,11 +3,10 @@ require 'spec_helper'
 feature "User follow and unfollow another user" do
   given(:joe) { Fabricate(:user) }
   given(:mark) { Fabricate(:user) }
-  given(:up) { Fabricate(:video) }
   given(:comedy) { Fabricate(:category) }
+  given(:up) { Fabricate(:video, category: comedy) }
 
   background do
-    up.categories << comedy
     Fabricate(:review, creator: mark, video: up)
   end
 

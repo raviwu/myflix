@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       handle_invitated_registration
-      Stripe.api_key = ENV['STRIPE_SECRET_KEY']
+      Stripe.api_key = Rails.env.production? ?  ENV['STRIPE_LIVE_SECRET_KEY'] : 'sk_test_2gB1xh7jwrowOkemhCZrhR4N'
       token = params[:stripeToken]
       begin
         charge = Stripe::Charge.create(

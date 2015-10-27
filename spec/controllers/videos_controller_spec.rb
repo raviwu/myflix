@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe VideosController do
+
   let(:video) { Fabricate(:video) }
 
   describe "GET index" do
@@ -31,8 +32,7 @@ describe VideosController do
       end
       it "sets the @review variable" do
         get :show, id: video.id
-        expect(assigns(:review)).to be_new_record
-        expect(assigns(:review)).to be_instance_of(Review)
+        expect(assigns(:review)).to be_a_new(Review)
       end
     end
   end

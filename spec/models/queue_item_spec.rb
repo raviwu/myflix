@@ -39,21 +39,19 @@ describe QueueItem do
     end
   end
 
-  describe "#categories" do
-    let(:video) { Fabricate(:video) }
+  describe "#category" do
+    let(:video) { Fabricate(:video, category: nil) }
 
-    it "returns the array of category objects that the associated video belongs to" do
+    it "returns the category objects that the associated video belongs to" do
       comedy = Fabricate(:category)
-      action = Fabricate(:category)
-      video.categories << comedy
-      video.categories << action
+      video.category = comedy
       queue_item = Fabricate(:queue_item, video: video)
-      expect(queue_item.categories).to match_array([comedy, action])
+      expect(queue_item.category).to eq(comedy)
     end
 
-    it "returns emtpy array if the video not belongs to any category" do
+    it "returns nil if the video not belongs to any category" do
       queue_item = Fabricate(:queue_item, video: video)
-      expect(queue_item.categories).to eq([])
+      expect(queue_item.category).to be_nil
     end
   end
 

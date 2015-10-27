@@ -27,8 +27,7 @@
                     = select_tag "queue_items[#{queue_item.id}][rating]", options_for_video_rating(queue_item.rating), include_blank: (true unless queue_item.rating),:id => 'queue_items_id_rating', class: 'form-control'
                   %td
                     %ul
-                      - queue_item.categories.each do |category|
-                        %li= link_to category.title, category_path(category)
+                      %li= link_to queue_item.category.title, category_path(queue_item.category)
                   %td
                     = link_to queue_item_path(queue_item), method: :delete do
                       %i.glyphicon.glyphicon-remove

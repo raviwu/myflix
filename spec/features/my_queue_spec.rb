@@ -6,7 +6,7 @@ feature "User interact with the queue" do
     up = Fabricate(:video, title: 'Up')
     die_hard = Fabricate(:video, title: 'Die Hard')
     monk = Fabricate(:video, title: 'Monk')
-    Video.all.each { |v| v.categories << drama }
+    Video.all.each { |v| v.category = drama }
 
     sign_in
 
