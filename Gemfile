@@ -51,5 +51,5 @@ group :production, :staging do
 end
 
 group :production do
-  gem 'sentry-raven'
+  #gem 'sentry-raven'
 end
