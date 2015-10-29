@@ -71,10 +71,11 @@ describe UsersController do
       fullname: "invalid_user",
       password: "pw"} }
 
-    context "with valid user input" do
-
+    context "with valid user input and valid card" do
       before do
-        post :create, user: valid_user_params
+        charge = double(:charge, successful?: true)
+        StripeWrapper::Charge.should_receive(:create).and_return(charge)
+        post :create, user: valid_user_params, stripeToken: '12345'
       end
 
       it "sets the @user variable" do
@@ -109,8 +110,27 @@ describe UsersController do
       end
     end
 
-    context "with invalid input" do
+    context "with valid personal info and declined card" do
+      before do
+        charge = double(:charge, successful?: false, error_message: 'Card declined.')
+        StripeWrapper::Charge.should_receive(:create).and_return(charge)
+        post :create, user: valid_user_params, stripeToken: '12345'
+      end
 
+      it "does not create User" do
+        expect(User.all.size).to eq(0)
+      end
+
+      it "sets flash[:danger]" do
+        expect(flash[:danger]).to be_present
+      end
+
+      it "render new template" do
+        expect(response).to render_template(:new)
+      end
+    end
+
+    context "with invalid input" do
       before do
         post :create, user: invalid_user_params
       end
@@ -122,6 +142,15 @@ describe UsersController do
       it "does not send out email" do
         expect(ActionMailer::Base.deliveries).to be_empty
       end
+
+      it "does not create user" do
+        expect(User.all.size).to eq(0)
+      end
+
+      it "does not charge the card" do
+        StripeWrapper::Charge.should_not_receive(:create)
+      end
+
     end
 
     context "with invitation token and valid input" do
@@ -129,11 +158,13 @@ describe UsersController do
       let(:invitation) { Fabricate(:invitation, invitor: joe, recipient_fullname: 'Alice', recipient_email: 'alice@exapmle.com') }
 
       before do
+        charge = double(:charge, successful?: true)
+        StripeWrapper::Charge.should_receive(:create).and_return(charge)
         post :create, user: {
           email: "alice@example.com",
           fullname: "Alice",
           password: "password",
-          invitation_token: invitation.token}
+          invitation_token: invitation.token}, stripeToken: '12345'
       end
 
       it "sets the new user follow the invitor" do
@@ -167,7 +198,7 @@ describe UsersController do
         get :show, id: current_user.id
         expect(assigns(:user)).to be_instance_of(User)
       end
-      
+
       it "renders user page according to the params[:id]" do
         joe = Fabricate(:user, fullname: 'Joe Doe')
         get :show, id: joe.id

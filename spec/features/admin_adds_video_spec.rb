@@ -20,7 +20,7 @@ feature "Admin adds video" do
 
     check_if_video_added_and_redirect_back_to_add_new
 
-    sign_out
+    sign_out(admin)
 
     sign_in(user)
 

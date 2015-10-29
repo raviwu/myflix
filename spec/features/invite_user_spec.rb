@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature "User can invite other users" do
+feature "User can invite other users", { js: true, vcr: true } do
   given(:joe) { Fabricate(:user, fullname: 'Joe Doe') }
   given(:guest_email) { 'alice@example.com' }
   given(:guest_fullname) { 'Alice Chou' }
@@ -21,8 +21,7 @@ feature "User can invite other users" do
 
     expect(page).to have_content "You've successfully invite #{guest_fullname} to join MyFlix!"
 
-    sign_out
-
+    sign_out(joe)
     open_email(guest_email)
     expect(current_email).to have_content invitation_message
     current_email.click_link 'Join Me on MyFLix'
@@ -31,6 +30,10 @@ feature "User can invite other users" do
     expect(find_field('Email Address').value).to eq(guest_email)
     expect(find_field('Full Name').value).to eq(guest_fullname)
     fill_in 'Password', with: 'password'
+    fill_in 'Credit Card Number', with: '4242424242424242'
+    fill_in 'Security Code', with: '123'
+    select('10 - October', :from => 'exp_month' )
+    select("#{Date.today.year + 1}", :from => 'exp_year' )
     click_button 'Sign Up'
 
     expect(page).to have_content guest_fullname
@@ -41,7 +44,7 @@ feature "User can invite other users" do
     visit people_path
     expect(page).to have_content joe.fullname
 
-    sign_out
+    sign_out(User.last)
     sign_in(joe)
 
     visit people_path
