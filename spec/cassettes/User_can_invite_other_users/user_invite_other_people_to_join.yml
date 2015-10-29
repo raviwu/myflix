@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.stripe.com/v1/charges
     body:
       encoding: US-ASCII
-      string: amount=999&currency=usd&source=tok_1718BxGeF17FCPJ2o9Y0rQsO&description=Registration+Charge+for+alice%40example.com
+      string: amount=999&currency=usd&source=tok_171QDzGeF17FCPJ2GUR2RobS&description=Registration+Charge+for+alice%40example.com
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -19,8 +19,8 @@ http_interactions:
       - application/x-www-form-urlencoded
       X-Stripe-Client-User-Agent:
       - '{"bindings_version":"1.30.2","lang":"ruby","lang_version":"2.1.2 p95 (2014-05-08)","platform":"x86_64-darwin13.0","engine":"ruby","publisher":"stripe","uname":"Darwin
-        qa-pc.multi-function.local 15.0.0 Darwin Kernel Version 15.0.0: Sat Sep 19
-        15:53:46 PDT 2015; root:xnu-3247.10.11~1/RELEASE_X86_64 x86_64","hostname":"qa-pc.multi-function.local"}'
+        RW-MBP.local 15.0.0 Darwin Kernel Version 15.0.0: Sat Sep 19 15:53:46 PDT
+        2015; root:xnu-3247.10.11~1/RELEASE_X86_64 x86_64","hostname":"RW-MBP.local"}'
       Content-Length:
       - '115'
   response:
@@ -31,7 +31,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Thu, 29 Oct 2015 04:39:15 GMT
+      - Thu, 29 Oct 2015 23:54:33 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -49,7 +49,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7FdSdj5Lp1DxGM
+      - req_7Fw6FuFKCxbssX
       Stripe-Version:
       - '2015-10-16'
       Strict-Transport-Security:
@@ -58,14 +58,14 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "ch_1718ByGeF17FCPJ2ly5Zy98Y",
+          "id": "ch_171QE0GeF17FCPJ295VExx3f",
           "object": "charge",
           "amount": 999,
           "amount_refunded": 0,
           "application_fee": null,
-          "balance_transaction": "txn_1718BzGeF17FCPJ2LtB021Q7",
+          "balance_transaction": "txn_171QE1GeF17FCPJ2Fn5RLTWP",
           "captured": true,
-          "created": 1446093554,
+          "created": 1446162872,
           "currency": "usd",
           "customer": null,
           "description": "Registration Charge for alice@example.com",
@@ -86,11 +86,11 @@ http_interactions:
             "data": [],
             "has_more": false,
             "total_count": 0,
-            "url": "/v1/charges/ch_1718ByGeF17FCPJ2ly5Zy98Y/refunds"
+            "url": "/v1/charges/ch_171QE0GeF17FCPJ295VExx3f/refunds"
           },
           "shipping": null,
           "source": {
-            "id": "card_1718BxGeF17FCPJ2PmxUQjfW",
+            "id": "card_171QDzGeF17FCPJ2x8fvNbLb",
             "object": "card",
             "address_city": null,
             "address_country": null,
@@ -118,5 +118,5 @@ http_interactions:
           "status": "succeeded"
         }
     http_version: 
-  recorded_at: Thu, 29 Oct 2015 04:39:15 GMT
+  recorded_at: Thu, 29 Oct 2015 23:54:35 GMT
 recorded_with: VCR 2.9.3

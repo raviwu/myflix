@@ -40,9 +40,10 @@ group :test do
   gem 'shoulda-matchers', '3.0.0'
   gem 'capybara'
   gem 'capybara-email'
+  gem 'capybara-webkit'
   gem 'vcr'
   gem 'webmock'
-  gem 'selenium-webdriver'
+  # gem 'selenium-webdriver'
 end
 
 group :production, :staging do

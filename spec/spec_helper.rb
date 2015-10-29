@@ -10,6 +10,7 @@ require 'vcr'
 Sidekiq::Testing.inline!
 
 Capybara.server_port = 52662
+Capybara.javascript_driver = :webkit
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
@@ -48,4 +49,11 @@ VCR.configure do |config|
   config.hook_into                :webmock
   config.configure_rspec_metadata!
   config.ignore_localhost = true
+end
+
+Capybara::Webkit.configure do |config|
+  config.allow_url("js.stripe.com")
+  config.allow_url("api.stripe.com")
+  config.allow_url("q.stripe.com")
+  config.block_unknown_urls
 end
