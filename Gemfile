@@ -43,7 +43,7 @@ group :test do
   gem 'capybara-webkit'
   gem 'vcr'
   gem 'webmock'
-  # gem 'selenium-webdriver'
+  gem 'selenium-webdriver'
 end
 
 group :production, :staging do
