@@ -21,6 +21,7 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'stripe'
 gem 'figaro'
+gem 'draper', '~> 1.3'
 
 group :development do
   gem 'thin'
