@@ -71,10 +71,10 @@ describe UsersController do
       fullname: "invalid_user",
       password: "pw"} }
 
-    context "with valid user input and valid card" do
+    context "successful user sign up" do
       before do
-        charge = double(:charge, successful?: true)
-        StripeWrapper::Charge.should_receive(:create).and_return(charge)
+        result = double(:sign_up_result, successful?: true)
+        UserSignup.any_instance.should_receive(:sign_up).and_return(result)
         post :create, user: valid_user_params, stripeToken: '12345'
       end
 
@@ -94,49 +94,21 @@ describe UsersController do
       it "redirects to home_path if the record is saved" do
         expect(response).to redirect_to(home_path)
       end
-
-      it "sends out the email" do
-        expect(ActionMailer::Base.deliveries).not_to be_empty
-      end
-
-      it "sends to correct recipient" do
-        mail = ActionMailer::Base.deliveries.last
-        expect(mail.to).to eq(['test@example.com'])
-      end
-
-      it "contains correct content" do
-        mail = ActionMailer::Base.deliveries.last
-        expect(mail.body).to include('Welcome, valid_user.')
-      end
     end
 
-    context "with valid personal info and declined card" do
+    context "failed user sign up" do
       before do
-        charge = double(:charge, successful?: false, error_message: 'Card declined.')
-        StripeWrapper::Charge.should_receive(:create).and_return(charge)
-        post :create, user: valid_user_params, stripeToken: '12345'
-      end
-
-      it "does not create User" do
-        expect(User.all.size).to eq(0)
-      end
-
-      it "sets flash[:danger]" do
-        expect(flash[:danger]).to be_present
-      end
-
-      it "render new template" do
-        expect(response).to render_template(:new)
-      end
-    end
-
-    context "with invalid input" do
-      before do
-        post :create, user: invalid_user_params
+        result = double(:sign_up_result, successful?: false, error_message: "errors")
+        UserSignup.any_instance.should_receive(:sign_up).and_return(result)
+        post :create, user: invalid_user_params, stripeToken: '12345'
       end
 
       it "renders the new template" do
         expect(response).to render_template(:new)
+      end
+
+      it "sets flash[:danger]" do
+        expect(flash[:danger]).to be_present
       end
 
       it "does not send out email" do
@@ -145,40 +117,6 @@ describe UsersController do
 
       it "does not create user" do
         expect(User.all.size).to eq(0)
-      end
-
-      it "does not charge the card" do
-        StripeWrapper::Charge.should_not_receive(:create)
-      end
-
-    end
-
-    context "with invitation token and valid input" do
-      let(:joe) { Fabricate(:user) }
-      let(:invitation) { Fabricate(:invitation, invitor: joe, recipient_fullname: 'Alice', recipient_email: 'alice@exapmle.com') }
-
-      before do
-        charge = double(:charge, successful?: true)
-        StripeWrapper::Charge.should_receive(:create).and_return(charge)
-        post :create, user: {
-          email: "alice@example.com",
-          fullname: "Alice",
-          password: "password",
-          invitation_token: invitation.token}, stripeToken: '12345'
-      end
-
-      it "sets the new user follow the invitor" do
-        alice = User.last
-        expect(alice.followed?(joe)).to be_truthy
-      end
-
-      it "sets the invitor follow the new user" do
-        alice = User.last
-        expect(joe.followed?(alice)).to be_truthy
-      end
-
-      it "expired the invitation token" do
-        expect(assigns(:invitation).token).to be_nil
       end
     end
   end
