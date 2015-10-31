@@ -21,6 +21,7 @@ describe Admin::VideosController do
   end
 
   describe "POST create" do
+    let(:comedy) { Fabricate(:category, title: 'comedy') }
 
     it_behaves_like 'require_sign_in' do
       let(:action) { post :create }
@@ -31,11 +32,9 @@ describe Admin::VideosController do
     end
 
     context "with valid input" do
-
       before do
         set_current_admin
-        category = Fabricate(:category)
-        post :create, video: { title: "Paul", description: "A funny alien movie.", category_id: category.id}
+        post :create, video: { title: "Paul", description: "A funny alien movie.", category_id: comedy.id}
       end
 
       it "redirects to the add new video page" do
@@ -43,21 +42,18 @@ describe Admin::VideosController do
       end
 
       it "creates a new video" do
-        expect(Category.last.videos.count).to eq(1)
+        expect(Category.first.videos.count).to eq(1)
       end
 
       it "sets the flash[:success]" do
         expect(flash[:success]).to be_present
       end
-
     end
 
     context "with invalid input" do
-
       before do
         set_current_admin
-        category = Fabricate(:category)
-        post :create, video: { description: "A funny alien movie.", category_id: category.id}
+        post :create, video: { description: "A funny alien movie.", category_id: comedy.id}
       end
 
       it "does not create a video" do
@@ -75,8 +71,6 @@ describe Admin::VideosController do
       it "sets the flash[:danger]" do
         expect(flash[:danger]).to be_present
       end
-      
     end
-
   end
 end

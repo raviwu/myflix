@@ -74,7 +74,7 @@ describe UsersController do
     context "successful user sign up" do
       before do
         result = double(:sign_up_result, successful?: true)
-        UserSignup.any_instance.should_receive(:sign_up).and_return(result)
+        expect_any_instance_of(UserSignup).to receive(:sign_up).and_return(result)
         post :create, user: valid_user_params, stripeToken: '12345'
       end
 
@@ -99,7 +99,7 @@ describe UsersController do
     context "failed user sign up" do
       before do
         result = double(:sign_up_result, successful?: false, error_message: "errors")
-        UserSignup.any_instance.should_receive(:sign_up).and_return(result)
+        expect_any_instance_of(UserSignup).to receive(:sign_up).and_return(result)
         post :create, user: invalid_user_params, stripeToken: '12345'
       end
 

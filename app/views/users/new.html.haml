@@ -1,9 +1,4 @@
-<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-<script type="text/javascript">
-Stripe.setPublishableKey("#{Rails.env.production? ? ENV['STRIPE_LIVE_PUB_KEY'] : 'pk_test_5jJnBEWP58uma9eoJZsbahsq'}");
-</script>
-
-= javascript_include_tag 'payment'
+= render 'stripe/scripts'
 
 %section.register.container
   .row
@@ -26,21 +21,7 @@ Stripe.setPublishableKey("#{Rails.env.production? ? ENV['STRIPE_LIVE_PUB_KEY'] :
             .col-sm-6
               = f.text_field :fullname, class: 'form-control'
         %fieldset.credit_card
-          %span.payment-errors
-          .form-group
-            = label_tag 'credit_card_number', 'Credit Card Number', class: 'control-label col-sm-2'
-            .col-sm-6
-              = text_field_tag('credit_card_number', nil, class: 'form-control', data: {stripe: 'number'})
-          .form-group
-            = label_tag 'security_code', 'Security Code', class: 'control-label col-sm-2'
-            .col-sm-6
-              = text_field_tag('security_code', nil, class: 'form-control', data: {stripe: 'cvc'})
-          .form-group
-            %label.control-label.col-sm-2 Expiration
-            .col-sm-3
-              = select_month(Date.today, {add_month_numbers: true},  class: 'form-control', id: 'exp_month', data: {stripe: 'exp-month'})
-            .col-sm-2
-              = select_year(Date.today.year, {start_year: Date.today.year, end_year: Date.today.year + 10}, id: 'exp_year', class: 'form-control', data: {stripe: 'exp-year'})
+          = render 'stripe/register_payment_fields'
         %fieldset.actions.control-group.col-sm-offset-2
           .controls
             = f.submit 'Sign Up', class: "btn btn-default"

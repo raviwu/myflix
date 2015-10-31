@@ -18,15 +18,14 @@ feature "Admin adds video" do
 
     admin_adds_new_video(up)
 
-    check_if_video_added_and_redirect_back_to_add_new
+    check_if_video_added
+    check_if_redirect_back_to_add_new
 
     sign_out(admin)
 
     sign_in(user)
 
-    check_if_new_added_video_show_up_on_home(up)
-
-    check_if_new_added_video_has_correct_large_cover_and_video_url(up)
+    check_if_new_added_video_correctly_shown_on_pages_with_uploaded_photo(up)
   end
 
   scenario "admin signs in but add invalid input" do
@@ -48,17 +47,18 @@ feature "Admin adds video" do
     click_button 'Add Video'
   end
 
-  def check_if_video_added_and_redirect_back_to_add_new
-    expect(page).to have_content "You've added video Up."
+  def check_if_video_added
     expect(page).to have_content "Add a New Video"
   end
 
-  def check_if_new_added_video_show_up_on_home(video)
-    click_link "Videos"
-    expect(page).to have_selector("img[src='/uploads/#{video[:title].split(' ').join("_").downcase}_s.jpg']")
+  def check_if_redirect_back_to_add_new
+    expect(page).to have_content "Add a New Video"
   end
 
-  def check_if_new_added_video_has_correct_large_cover_and_video_url(video)
+  def check_if_new_added_video_correctly_shown_on_pages_with_uploaded_photo(video)
+    click_link "Videos"
+    expect(page).to have_selector("img[src='/uploads/#{video[:title].split(' ').join("_").downcase}_s.jpg']")
+
     click_video_on_home_path(Video.last)
     expect(page).to have_selector("img[src='/uploads/#{video[:title].split(' ').join("_").downcase}_l.jpg']")
     expect(page).to have_selector("a[href='#{video[:video_url]}']")

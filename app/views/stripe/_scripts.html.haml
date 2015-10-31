@@ -1,0 +1,6 @@
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript">
+Stripe.setPublishableKey("#{ENV['STRIPE_LIVE_PUB_KEY']}");
+</script>
+
+= javascript_include_tag 'payment'

@@ -1,0 +1,15 @@
+%span.payment-errors
+.form-group
+  = label_tag 'credit_card_number', 'Credit Card Number', class: 'control-label col-sm-2'
+  .col-sm-6
+    = text_field_tag('credit_card_number', nil, class: 'form-control', data: {stripe: 'number'})
+.form-group
+  = label_tag 'security_code', 'Security Code', class: 'control-label col-sm-2'
+  .col-sm-6
+    = text_field_tag('security_code', nil, class: 'form-control', data: {stripe: 'cvc'})
+.form-group
+  %label.control-label.col-sm-2 Expiration
+  .col-sm-3
+    = select_month(Date.today, {add_month_numbers: true},  class: 'form-control', id: 'exp_month', data: {stripe: 'exp-month'})
+  .col-sm-2
+    = select_year(Date.today.year, {start_year: Date.today.year, end_year: Date.today.year + 10}, id: 'exp_year', class: 'form-control', data: {stripe: 'exp-year'})

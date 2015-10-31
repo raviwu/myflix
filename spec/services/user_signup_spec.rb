@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe UserSignup do
   describe "#sign_up" do
-    let(:valid_user_info) { User.new(
+    let(:valid_user) { User.new(
       email: "test@example.com",
       fullname: "valid_user",
       password: "password") }
 
-    let(:invalid_user_info) { User.new(
+    let(:invalid_user) { User.new(
       email: "invalid@example",
       fullname: "invalid_user",
       password: "pw") }
@@ -15,8 +15,8 @@ describe UserSignup do
     context "with valid user input and valid card" do
       before do
         charge = double(:charge, successful?: true)
-        StripeWrapper::Charge.should_receive(:create).and_return(charge)
-        UserSignup.new(valid_user_info).sign_up("fake_stripe_token")
+        expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
+        UserSignup.new(valid_user).sign_up("fake_stripe_token")
       end
 
       it "sends out the email" do
@@ -37,18 +37,18 @@ describe UserSignup do
     context "with valid user input and invalid card" do
       it "does not create a new user" do
         charge = double(:charge, successful?: false, error_message: "Your card was declined.")
-        StripeWrapper::Charge.should_receive(:create).and_return(charge)
-        UserSignup.new(valid_user_info).sign_up("fake_stripe_token")
+        expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
+        UserSignup.new(valid_user).sign_up("fake_stripe_token")
         expect(User.all.size).to eq(0)
       end
     end
 
     context "with invalid user input and invalid card" do
       before do
-        UserSignup.new(invalid_user_info).sign_up("fake_stripe_token")
+        UserSignup.new(invalid_user).sign_up("fake_stripe_token")
       end
       it "does not charge the card" do
-        StripeWrapper::Charge.should_not_receive(:create)
+        expect(StripeWrapper::Charge).not_to receive(:create)
       end
     end
 
@@ -58,8 +58,8 @@ describe UserSignup do
 
       before do
         charge = double(:charge, successful?: true)
-        StripeWrapper::Charge.should_receive(:create).and_return(charge)
-        UserSignup.new(valid_user_info).sign_up("fake_stripe_token", invitation.token)
+        expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
+        UserSignup.new(valid_user).sign_up("fake_stripe_token", invitation.token)
       end
 
       it "sets the new user follow the invitor" do
