@@ -16,6 +16,3 @@
 
 # Ignore the database.yml file
 config/database.yml
-
-# Ignore the application.yml file
-config/application.yml

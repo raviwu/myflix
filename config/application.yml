@@ -1,0 +1,12 @@
+production:
+  STRIPE_LIVE_PUB_KEY: ""
+  STRIPE_LIVE_SECRET_KEY: ""
+staging:
+  STRIPE_LIVE_PUB_KEY: 'pk_test_5jJnBEWP58uma9eoJZsbahsq'
+  STRIPE_LIVE_SECRET_KEY: 'sk_test_2gB1xh7jwrowOkemhCZrhR4N'
+development:
+  STRIPE_LIVE_PUB_KEY: 'pk_test_5jJnBEWP58uma9eoJZsbahsq'
+  STRIPE_LIVE_SECRET_KEY: 'sk_test_2gB1xh7jwrowOkemhCZrhR4N'
+test:
+  STRIPE_LIVE_PUB_KEY: 'pk_test_5jJnBEWP58uma9eoJZsbahsq'
+  STRIPE_LIVE_SECRET_KEY: 'sk_test_2gB1xh7jwrowOkemhCZrhR4N'
