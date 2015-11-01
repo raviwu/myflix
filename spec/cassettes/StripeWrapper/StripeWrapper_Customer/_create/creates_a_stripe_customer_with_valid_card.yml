@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.stripe.com/v1/customers
+    uri: https://api.stripe.com/v1/tokens
     body:
       encoding: US-ASCII
-      string: source=tok_172LrpGeF17FCPJ2ywshRRkK&plan=myflix_base&email=alice%40example.com
+      string: card[number]=4242424242424242&card[exp_month]=10&card[exp_year]=2022&card[cvc]=314
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -22,7 +22,7 @@ http_interactions:
         RW-MBP.local 15.0.0 Darwin Kernel Version 15.0.0: Sat Sep 19 15:53:46 PDT
         2015; root:xnu-3247.10.11~1/RELEASE_X86_64 x86_64","hostname":"RW-MBP.local"}'
       Content-Length:
-      - '78'
+      - '82'
   response:
     status:
       code: 200
@@ -31,11 +31,11 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 01 Nov 2015 13:27:30 GMT
+      - Sun, 01 Nov 2015 13:13:24 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '2384'
+      - '782'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -49,7 +49,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7Gtf1Pv84HiGSQ
+      - req_7GtRUxOMVh9IpO
       Stripe-Version:
       - '2015-10-16'
       Strict-Transport-Security:
@@ -58,16 +58,108 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "cus_7GtfJjh8FoMiJz",
+          "id": "tok_172LeCGeF17FCPJ2ZLeD5VuC",
+          "object": "token",
+          "card": {
+            "id": "card_172LeCGeF17FCPJ2baouCfij",
+            "object": "card",
+            "address_city": null,
+            "address_country": null,
+            "address_line1": null,
+            "address_line1_check": null,
+            "address_line2": null,
+            "address_state": null,
+            "address_zip": null,
+            "address_zip_check": null,
+            "brand": "Visa",
+            "country": "US",
+            "cvc_check": "unchecked",
+            "dynamic_last4": null,
+            "exp_month": 10,
+            "exp_year": 2022,
+            "fingerprint": "lBuC8qY1FR9nqFir",
+            "funding": "credit",
+            "last4": "4242",
+            "metadata": {},
+            "name": null,
+            "tokenization_method": null
+          },
+          "client_ip": "111.240.40.210",
+          "created": 1446383604,
+          "livemode": false,
+          "type": "card",
+          "used": false
+        }
+    http_version: 
+  recorded_at: Sun, 01 Nov 2015 13:13:25 GMT
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/customers
+    body:
+      encoding: US-ASCII
+      string: source=tok_172LeCGeF17FCPJ2ZLeD5VuC&plan=myflix_base&email=myles_weber%40nolangislason.io
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.30.2
+      Authorization:
+      - Bearer sk_test_2gB1xh7jwrowOkemhCZrhR4N
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"1.30.2","lang":"ruby","lang_version":"2.1.2 p95 (2014-05-08)","platform":"x86_64-darwin13.0","engine":"ruby","publisher":"stripe","uname":"Darwin
+        RW-MBP.local 15.0.0 Darwin Kernel Version 15.0.0: Sat Sep 19 15:53:46 PDT
+        2015; root:xnu-3247.10.11~1/RELEASE_X86_64 x86_64","hostname":"RW-MBP.local"}'
+      Content-Length:
+      - '89'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 01 Nov 2015 13:13:31 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2395'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_7GtRG0gptX1cCB
+      Stripe-Version:
+      - '2015-10-16'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "cus_7GtRxVmAFuPloB",
           "object": "customer",
           "account_balance": 0,
-          "created": 1446384450,
+          "created": 1446383610,
           "currency": "usd",
-          "default_source": "card_172LroGeF17FCPJ23e9yp45g",
+          "default_source": "card_172LeCGeF17FCPJ2baouCfij",
           "delinquent": false,
           "description": null,
           "discount": null,
-          "email": "alice@example.com",
+          "email": "myles_weber@nolangislason.io",
           "livemode": false,
           "metadata": {},
           "shipping": null,
@@ -75,7 +167,7 @@ http_interactions:
             "object": "list",
             "data": [
               {
-                "id": "card_172LroGeF17FCPJ23e9yp45g",
+                "id": "card_172LeCGeF17FCPJ2baouCfij",
                 "object": "card",
                 "address_city": null,
                 "address_country": null,
@@ -87,11 +179,11 @@ http_interactions:
                 "address_zip_check": null,
                 "brand": "Visa",
                 "country": "US",
-                "customer": "cus_7GtfJjh8FoMiJz",
+                "customer": "cus_7GtRxVmAFuPloB",
                 "cvc_check": "pass",
                 "dynamic_last4": null,
                 "exp_month": 10,
-                "exp_year": 2016,
+                "exp_year": 2022,
                 "fingerprint": "lBuC8qY1FR9nqFir",
                 "funding": "credit",
                 "last4": "4242",
@@ -102,20 +194,20 @@ http_interactions:
             ],
             "has_more": false,
             "total_count": 1,
-            "url": "/v1/customers/cus_7GtfJjh8FoMiJz/sources"
+            "url": "/v1/customers/cus_7GtRxVmAFuPloB/sources"
           },
           "subscriptions": {
             "object": "list",
             "data": [
               {
-                "id": "sub_7GtfUZ4FcJ7zyj",
+                "id": "sub_7GtRlWRYazdto6",
                 "object": "subscription",
                 "application_fee_percent": null,
                 "cancel_at_period_end": false,
                 "canceled_at": null,
-                "current_period_end": 1448976450,
-                "current_period_start": 1446384450,
-                "customer": "cus_7GtfJjh8FoMiJz",
+                "current_period_end": 1448975610,
+                "current_period_start": 1446383610,
+                "customer": "cus_7GtRxVmAFuPloB",
                 "discount": null,
                 "ended_at": null,
                 "metadata": {},
@@ -134,7 +226,7 @@ http_interactions:
                   "trial_period_days": null
                 },
                 "quantity": 1,
-                "start": 1446384450,
+                "start": 1446383610,
                 "status": "active",
                 "tax_percent": null,
                 "trial_end": null,
@@ -143,9 +235,9 @@ http_interactions:
             ],
             "has_more": false,
             "total_count": 1,
-            "url": "/v1/customers/cus_7GtfJjh8FoMiJz/subscriptions"
+            "url": "/v1/customers/cus_7GtRxVmAFuPloB/subscriptions"
           }
         }
     http_version: 
-  recorded_at: Sun, 01 Nov 2015 13:27:32 GMT
+  recorded_at: Sun, 01 Nov 2015 13:13:32 GMT
 recorded_with: VCR 2.9.3

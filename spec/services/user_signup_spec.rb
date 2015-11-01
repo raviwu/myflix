@@ -14,8 +14,8 @@ describe UserSignup do
 
     context "with valid user input and valid card" do
       before do
-        charge = double(:charge, successful?: true)
-        expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
+        customer = double(:customer, successful?: true)
+        expect(StripeWrapper::Customer).to receive(:create).and_return(customer)
         UserSignup.new(valid_user).sign_up("fake_stripe_token")
       end
 
@@ -36,8 +36,8 @@ describe UserSignup do
 
     context "with valid user input and invalid card" do
       it "does not create a new user" do
-        charge = double(:charge, successful?: false, error_message: "Your card was declined.")
-        expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
+        customer = double(:customer, successful?: false, error_message: "Your card was declined.")
+        expect(StripeWrapper::Customer).to receive(:create).and_return(customer)
         UserSignup.new(valid_user).sign_up("fake_stripe_token")
         expect(User.all.size).to eq(0)
       end
@@ -48,7 +48,7 @@ describe UserSignup do
         UserSignup.new(invalid_user).sign_up("fake_stripe_token")
       end
       it "does not charge the card" do
-        expect(StripeWrapper::Charge).not_to receive(:create)
+        expect(StripeWrapper::Customer).not_to receive(:customer)
       end
     end
 
@@ -57,8 +57,8 @@ describe UserSignup do
       let(:invitation) { Fabricate(:invitation, invitor: joe, recipient_fullname: 'Alice', recipient_email: 'alice@exapmle.com') }
 
       before do
-        charge = double(:charge, successful?: true)
-        expect(StripeWrapper::Charge).to receive(:create).and_return(charge)
+        customer = double(:customer, successful?: true)
+        expect(StripeWrapper::Customer).to receive(:create).and_return(customer)
         UserSignup.new(valid_user).sign_up("fake_stripe_token", invitation.token)
       end
 

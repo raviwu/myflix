@@ -1,35 +1,64 @@
 require 'spec_helper'
 require "stripe"
 
-describe StripeWrapper::Charge, :vcr do
-  let(:token) { Stripe::Token.create(
+describe StripeWrapper do
+  let(:valid_token) { Stripe::Token.create(
     :card => {
-      :number => card_number,
+      :number => '4242424242424242',
+      :exp_month => 10,
+      :exp_year => 2022,
+      :cvc => "314"
+    }
+  ).id}
+  let(:declined_token) { Stripe::Token.create(
+    :card => {
+      :number => '4000000000000002',
       :exp_month => 10,
       :exp_year => 2022,
       :cvc => "314"
     }
   ).id}
 
-  context "with valid card" do
-    let(:card_number) { '4242424242424242' }
-    let(:response) { StripeWrapper::Charge.create(amount: 300, source: token) }
+  describe StripeWrapper::Charge, :vcr do
 
-    it "charges the card successfully" do
-      expect(response).to be_successful
+    context "with valid card" do
+      it "charges the card successfully" do
+        response = StripeWrapper::Charge.create(amount: 300, source: valid_token)
+        expect(response).to be_successful
+      end
+    end
+
+    context "with invalid card" do
+      let(:response) { StripeWrapper::Charge.create(amount: 300, source: declined_token) }
+
+      it "does not charge the card" do
+        expect(response).not_to be_successful
+      end
+
+      it "contains error message" do
+        expect(response.error_message).to be_present
+      end
     end
   end
 
-  context "with invalid card" do
-    let(:card_number) { '4000000000000002' }
-    let(:response) { StripeWrapper::Charge.create(amount: 300, source: token) }
+  describe StripeWrapper::Customer do
+    describe ".create", :vcr do
+      it "creates a stripe customer with valid card" do
+        response = StripeWrapper::Customer.create(user: Fabricate(:user), source: valid_token)
+        expect(response).to be_successful
+      end
 
-    it "does not charge the card" do
-      expect(response).not_to be_successful
-    end
+      context "with invalid card" do
+        let(:response) { StripeWrapper::Customer.create(user: Fabricate(:user), source: declined_token) }
 
-    it "contains error message" do
-      expect(response.error_message).to be_present
+        it "does not charge the card" do
+          expect(response).not_to be_successful
+        end
+
+        it "contains error message" do
+          expect(response.error_message).to be_present
+        end
+      end
     end
   end
 end
