@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.stripe.com/v1/customers
     body:
       encoding: US-ASCII
-      string: source=tok_172LrpGeF17FCPJ2ywshRRkK&plan=myflix_base&email=alice%40example.com
+      string: source=tok_172VLvGeF17FCPJ21NWOyZEL&plan=myflix_base&email=alice%40example.com
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -31,7 +31,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 01 Nov 2015 13:27:30 GMT
+      - Sun, 01 Nov 2015 23:35:13 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -49,7 +49,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7Gtf1Pv84HiGSQ
+      - req_7H3Sz787aNEOW8
       Stripe-Version:
       - '2015-10-16'
       Strict-Transport-Security:
@@ -58,12 +58,12 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "cus_7GtfJjh8FoMiJz",
+          "id": "cus_7H3SC2tupoZgAg",
           "object": "customer",
           "account_balance": 0,
-          "created": 1446384450,
+          "created": 1446420912,
           "currency": "usd",
-          "default_source": "card_172LroGeF17FCPJ23e9yp45g",
+          "default_source": "card_172VLvGeF17FCPJ2h4zlm4iO",
           "delinquent": false,
           "description": null,
           "discount": null,
@@ -75,7 +75,7 @@ http_interactions:
             "object": "list",
             "data": [
               {
-                "id": "card_172LroGeF17FCPJ23e9yp45g",
+                "id": "card_172VLvGeF17FCPJ2h4zlm4iO",
                 "object": "card",
                 "address_city": null,
                 "address_country": null,
@@ -87,11 +87,11 @@ http_interactions:
                 "address_zip_check": null,
                 "brand": "Visa",
                 "country": "US",
-                "customer": "cus_7GtfJjh8FoMiJz",
+                "customer": "cus_7H3SC2tupoZgAg",
                 "cvc_check": "pass",
                 "dynamic_last4": null,
-                "exp_month": 10,
-                "exp_year": 2016,
+                "exp_month": 12,
+                "exp_year": 2020,
                 "fingerprint": "lBuC8qY1FR9nqFir",
                 "funding": "credit",
                 "last4": "4242",
@@ -102,20 +102,20 @@ http_interactions:
             ],
             "has_more": false,
             "total_count": 1,
-            "url": "/v1/customers/cus_7GtfJjh8FoMiJz/sources"
+            "url": "/v1/customers/cus_7H3SC2tupoZgAg/sources"
           },
           "subscriptions": {
             "object": "list",
             "data": [
               {
-                "id": "sub_7GtfUZ4FcJ7zyj",
+                "id": "sub_7H3ShPjpIDRbVy",
                 "object": "subscription",
                 "application_fee_percent": null,
                 "cancel_at_period_end": false,
                 "canceled_at": null,
-                "current_period_end": 1448976450,
-                "current_period_start": 1446384450,
-                "customer": "cus_7GtfJjh8FoMiJz",
+                "current_period_end": 1449012912,
+                "current_period_start": 1446420912,
+                "customer": "cus_7H3SC2tupoZgAg",
                 "discount": null,
                 "ended_at": null,
                 "metadata": {},
@@ -134,7 +134,7 @@ http_interactions:
                   "trial_period_days": null
                 },
                 "quantity": 1,
-                "start": 1446384450,
+                "start": 1446420912,
                 "status": "active",
                 "tax_percent": null,
                 "trial_end": null,
@@ -143,9 +143,9 @@ http_interactions:
             ],
             "has_more": false,
             "total_count": 1,
-            "url": "/v1/customers/cus_7GtfJjh8FoMiJz/subscriptions"
+            "url": "/v1/customers/cus_7H3SC2tupoZgAg/subscriptions"
           }
         }
     http_version: 
-  recorded_at: Sun, 01 Nov 2015 13:27:32 GMT
+  recorded_at: Sun, 01 Nov 2015 23:35:14 GMT
 recorded_with: VCR 2.9.3

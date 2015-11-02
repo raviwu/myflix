@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.stripe.com/v1/customers
     body:
       encoding: US-ASCII
-      string: source=tok_172LrkGeF17FCPJ2EGkLgp1J&plan=myflix_base&email=foo%40bar.com
+      string: source=tok_172VMDGeF17FCPJ2HfpawB9z&plan=myflix_base&email=foo%40bar.com
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -31,7 +31,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 01 Nov 2015 13:27:26 GMT
+      - Sun, 01 Nov 2015 23:35:31 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -49,7 +49,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7GtfR0hMn7Ailg
+      - req_7H3T4hryCnl7Mn
       Stripe-Version:
       - '2015-10-16'
       Strict-Transport-Security:
@@ -58,12 +58,12 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "cus_7Gtf4E9LLh0eah",
+          "id": "cus_7H3TQoLquv1CMq",
           "object": "customer",
           "account_balance": 0,
-          "created": 1446384445,
+          "created": 1446420930,
           "currency": "usd",
-          "default_source": "card_172LrkGeF17FCPJ20v2rnmPH",
+          "default_source": "card_172VMDGeF17FCPJ2X3KWs6qf",
           "delinquent": false,
           "description": null,
           "discount": null,
@@ -75,7 +75,7 @@ http_interactions:
             "object": "list",
             "data": [
               {
-                "id": "card_172LrkGeF17FCPJ20v2rnmPH",
+                "id": "card_172VMDGeF17FCPJ2X3KWs6qf",
                 "object": "card",
                 "address_city": null,
                 "address_country": null,
@@ -87,11 +87,11 @@ http_interactions:
                 "address_zip_check": null,
                 "brand": "Visa",
                 "country": "US",
-                "customer": "cus_7Gtf4E9LLh0eah",
+                "customer": "cus_7H3TQoLquv1CMq",
                 "cvc_check": "pass",
                 "dynamic_last4": null,
-                "exp_month": 10,
-                "exp_year": 2016,
+                "exp_month": 12,
+                "exp_year": 2025,
                 "fingerprint": "lBuC8qY1FR9nqFir",
                 "funding": "credit",
                 "last4": "4242",
@@ -102,20 +102,20 @@ http_interactions:
             ],
             "has_more": false,
             "total_count": 1,
-            "url": "/v1/customers/cus_7Gtf4E9LLh0eah/sources"
+            "url": "/v1/customers/cus_7H3TQoLquv1CMq/sources"
           },
           "subscriptions": {
             "object": "list",
             "data": [
               {
-                "id": "sub_7GtfotXbNFDDmz",
+                "id": "sub_7H3T58XzdWjiiZ",
                 "object": "subscription",
                 "application_fee_percent": null,
                 "cancel_at_period_end": false,
                 "canceled_at": null,
-                "current_period_end": 1448976445,
-                "current_period_start": 1446384445,
-                "customer": "cus_7Gtf4E9LLh0eah",
+                "current_period_end": 1449012930,
+                "current_period_start": 1446420930,
+                "customer": "cus_7H3TQoLquv1CMq",
                 "discount": null,
                 "ended_at": null,
                 "metadata": {},
@@ -134,7 +134,7 @@ http_interactions:
                   "trial_period_days": null
                 },
                 "quantity": 1,
-                "start": 1446384445,
+                "start": 1446420930,
                 "status": "active",
                 "tax_percent": null,
                 "trial_end": null,
@@ -143,9 +143,9 @@ http_interactions:
             ],
             "has_more": false,
             "total_count": 1,
-            "url": "/v1/customers/cus_7Gtf4E9LLh0eah/subscriptions"
+            "url": "/v1/customers/cus_7H3TQoLquv1CMq/subscriptions"
           }
         }
     http_version: 
-  recorded_at: Sun, 01 Nov 2015 13:27:27 GMT
+  recorded_at: Sun, 01 Nov 2015 23:35:31 GMT
 recorded_with: VCR 2.9.3

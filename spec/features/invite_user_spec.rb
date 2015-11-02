@@ -3,7 +3,7 @@ require 'spec_helper'
 feature "User can invite other users", { js: true, vcr: true } do
   given(:joe) { Fabricate(:user, fullname: 'Joe Doe') }
   given(:invitation) {{ invitor: joe, guest_email: 'alice@example.com', guest_fullname: 'Alice Chou', message: 'Hi, Alice. Please join MyFLix with me!' }}
-  given(:valid_card) {{ number: '4242424242424242', cvc: '999', exp_month: "10 - October", exp_year: "#{Date.today.year + 1}"}}
+  given(:valid_card) {{ number: '4242424242424242', cvc: '999', exp_month: "12 - December", exp_year: "2025"}}
 
   scenario "user invite other people to join" do
     invite_friend(invitation)
@@ -48,6 +48,9 @@ feature "User can invite other users", { js: true, vcr: true } do
     select(valid_card[:exp_month], :from => 'exp_month' )
     select(valid_card[:exp_year], :from => 'exp_year' )
     click_button 'Sign Up'
+
+    sleep 3.0 # wait for the filling things done avoid random fails with capybara-webkit
+
     expect(page).to have_content invitation[:guest_fullname]
   end
 

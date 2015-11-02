@@ -31,7 +31,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 01 Nov 2015 13:13:37 GMT
+      - Sun, 01 Nov 2015 23:32:52 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -49,7 +49,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7GtRg9sHhWhlE6
+      - req_7H3Q0hkXK6hl8M
       Stripe-Version:
       - '2015-10-16'
       Strict-Transport-Security:
@@ -58,10 +58,10 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "id": "tok_172LePGeF17FCPJ2MYjrPNLU",
+          "id": "tok_172VJgGeF17FCPJ2wyIrBwOW",
           "object": "token",
           "card": {
-            "id": "card_172LePGeF17FCPJ2DA2Ulx04",
+            "id": "card_172VJgGeF17FCPJ2h795U2xN",
             "object": "card",
             "address_city": null,
             "address_country": null,
@@ -85,19 +85,19 @@ http_interactions:
             "tokenization_method": null
           },
           "client_ip": "111.240.40.210",
-          "created": 1446383617,
+          "created": 1446420772,
           "livemode": false,
           "type": "card",
           "used": false
         }
     http_version: 
-  recorded_at: Sun, 01 Nov 2015 13:13:38 GMT
+  recorded_at: Sun, 01 Nov 2015 23:32:52 GMT
 - request:
     method: post
     uri: https://api.stripe.com/v1/customers
     body:
       encoding: US-ASCII
-      string: source=tok_172LePGeF17FCPJ2MYjrPNLU&plan=myflix_base&email=josefa%40bosco.name
+      string: source=tok_172VJgGeF17FCPJ2wyIrBwOW&plan=myflix_base&email=kara.stark%40mantehalvorson.com
     headers:
       Accept:
       - "*/*; q=0.5, application/xml"
@@ -114,7 +114,7 @@ http_interactions:
         RW-MBP.local 15.0.0 Darwin Kernel Version 15.0.0: Sat Sep 19 15:53:46 PDT
         2015; root:xnu-3247.10.11~1/RELEASE_X86_64 x86_64","hostname":"RW-MBP.local"}'
       Content-Length:
-      - '78'
+      - '90'
   response:
     status:
       code: 402
@@ -123,7 +123,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sun, 01 Nov 2015 13:13:39 GMT
+      - Sun, 01 Nov 2015 23:32:53 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -141,7 +141,7 @@ http_interactions:
       Cache-Control:
       - no-cache, no-store
       Request-Id:
-      - req_7GtRUEgI4yelqx
+      - req_7H3QWVhu66bDeN
       Stripe-Version:
       - '2015-10-16'
     body:
@@ -156,5 +156,5 @@ http_interactions:
           }
         }
     http_version: 
-  recorded_at: Sun, 01 Nov 2015 13:13:40 GMT
+  recorded_at: Sun, 01 Nov 2015 23:32:54 GMT
 recorded_with: VCR 2.9.3
