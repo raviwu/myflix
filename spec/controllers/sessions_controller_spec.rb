@@ -45,6 +45,22 @@ describe SessionsController do
         expect(flash[:danger]).to be_present
       end
     end
+
+    context "with deactivated user" do
+      let(:deactivated_user) { Fabricate(:user, active: false, password: 'password') }
+
+      before do
+        post :create, email: deactivated_user.email, password: 'password'
+      end
+
+      it "sets the flash[:danger]" do
+        expect(flash[:danger]).to be_present
+      end
+
+      it "renders the new template" do
+        expect(response).to render_template(:new)
+      end
+    end
   end
 
   describe "DELETE destroy" do
@@ -60,7 +76,7 @@ describe SessionsController do
     it "redirects to root_path" do
       expect(response).to redirect_to(root_path)
     end
-    
+
     it "sets the flash[:info]" do
       expect(flash[:info]).to be_present
     end

@@ -101,4 +101,12 @@ describe User do
     end
   end
 
+  describe '#deactivate!' do
+    let(:joe) { Fabricate(:user, active: true) }
+    it "turns the active column into false" do
+      joe.deactivate!
+      expect(joe).not_to be_active
+    end
+  end
+
 end

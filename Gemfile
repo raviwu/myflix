@@ -20,6 +20,7 @@ gem 'unicorn'
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'stripe'
+gem 'stripe_event'
 gem 'figaro'
 gem 'draper', '~> 1.3'
 

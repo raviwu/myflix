@@ -38,3 +38,23 @@ def click_video_on_home_path(video)
   visit home_path
   find(:xpath, "//a/img[@alt='#{video.title}']/..").click
 end
+
+def user_register(options={})
+  visit register_path
+
+  fill_in 'Email Address', with: options[:email]
+
+  fill_in 'Full Name', with: options[:fullname]
+
+  fill_in 'Password', with: options[:password]
+
+  fill_in 'Credit Card Number', with: options[:number]
+
+  fill_in 'Security Code', with: options[:cvc]
+  select(options[:exp_month], :from => 'exp_month' )
+  select(options[:exp_year], :from => 'exp_year' )
+
+  click_button 'Sign Up'
+
+  sleep 3.0 # wait for the js finishing
+end

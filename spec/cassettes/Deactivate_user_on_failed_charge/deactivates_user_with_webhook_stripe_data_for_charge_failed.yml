@@ -1,0 +1,132 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.stripe.com/v1/events/evt_173DJnGeF17FCPJ22TD95u65
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Stripe/v1 RubyBindings/1.30.2
+      Authorization:
+      - Bearer sk_test_2gB1xh7jwrowOkemhCZrhR4N
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"1.30.2","lang":"ruby","lang_version":"2.1.2 p95 (2014-05-08)","platform":"x86_64-darwin13.0","engine":"ruby","publisher":"stripe","uname":"Darwin
+        RW-MBP.local 15.0.0 Darwin Kernel Version 15.0.0: Sat Sep 19 15:53:46 PDT
+        2015; root:xnu-3247.10.11~1/RELEASE_X86_64 x86_64","hostname":"RW-MBP.local"}'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Tue, 03 Nov 2015 22:46:09 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1972'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Request-Id:
+      - req_7Hn73QI2Iiy0zo
+      Stripe-Version:
+      - '2015-10-16'
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "evt_173DJnGeF17FCPJ22TD95u65",
+          "object": "event",
+          "api_version": "2015-10-16",
+          "created": 1446589915,
+          "data": {
+            "object": {
+              "id": "ch_173DJnGeF17FCPJ2FbJERKr6",
+              "object": "charge",
+              "amount": 999,
+              "amount_refunded": 0,
+              "application_fee": null,
+              "balance_transaction": null,
+              "captured": false,
+              "created": 1446589915,
+              "currency": "usd",
+              "customer": "cus_7HXoZuaPzKHmr5",
+              "description": "myflix fee",
+              "destination": null,
+              "dispute": null,
+              "failure_code": "card_declined",
+              "failure_message": "Your card was declined.",
+              "fraud_details": {},
+              "invoice": null,
+              "livemode": false,
+              "metadata": {},
+              "paid": false,
+              "receipt_email": null,
+              "receipt_number": null,
+              "refunded": false,
+              "refunds": {
+                "object": "list",
+                "data": [],
+                "has_more": false,
+                "total_count": 0,
+                "url": "/v1/charges/ch_173DJnGeF17FCPJ2FbJERKr6/refunds"
+              },
+              "shipping": null,
+              "source": {
+                "id": "card_173DIVGeF17FCPJ2SOWJWo4L",
+                "object": "card",
+                "address_city": null,
+                "address_country": null,
+                "address_line1": null,
+                "address_line1_check": null,
+                "address_line2": null,
+                "address_state": null,
+                "address_zip": null,
+                "address_zip_check": null,
+                "brand": "Visa",
+                "country": "US",
+                "customer": "cus_7HXoZuaPzKHmr5",
+                "cvc_check": "pass",
+                "dynamic_last4": null,
+                "exp_month": 11,
+                "exp_year": 2018,
+                "fingerprint": "9QP9XAJ5MWWfwam4",
+                "funding": "credit",
+                "last4": "0341",
+                "metadata": {},
+                "name": null,
+                "tokenization_method": null
+              },
+              "statement_descriptor": "MyFLix fee",
+              "status": "failed"
+            }
+          },
+          "livemode": false,
+          "pending_webhooks": 0,
+          "request": "req_7Hmt5V8XdQarkd",
+          "type": "charge.failed"
+        }
+    http_version: 
+  recorded_at: Tue, 03 Nov 2015 22:46:11 GMT
+recorded_with: VCR 2.9.3

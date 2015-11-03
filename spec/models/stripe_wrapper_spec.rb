@@ -43,9 +43,16 @@ describe StripeWrapper do
 
   describe StripeWrapper::Customer do
     describe ".create", :vcr do
-      it "creates a stripe customer with valid card" do
-        response = StripeWrapper::Customer.create(user: Fabricate(:user), source: valid_token)
-        expect(response).to be_successful
+      context "with valid card" do
+        let(:response) {StripeWrapper::Customer.create(user: Fabricate(:user), source: valid_token)}
+
+        it "creates a stripe customer" do
+          expect(response).to be_successful
+        end
+
+        it "returns a customer token" do
+          expect(response.customer_token).to be_present
+        end
       end
 
       context "with invalid card" do

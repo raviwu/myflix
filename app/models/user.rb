@@ -52,4 +52,8 @@ class User < ActiveRecord::Base
     !(self == another_user || followed?(another_user))
   end
 
+  def deactivate!
+    update_column(:active, false)
+  end
+
 end

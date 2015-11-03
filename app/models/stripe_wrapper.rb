@@ -59,6 +59,10 @@ module StripeWrapper
     def error_message
       response.message
     end
+
+    def customer_token
+      response.id
+    end
   end
 
 end

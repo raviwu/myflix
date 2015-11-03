@@ -14,9 +14,13 @@ describe UserSignup do
 
     context "with valid user input and valid card" do
       before do
-        customer = double(:customer, successful?: true)
+        customer = double(:customer, successful?: true, customer_token: '12345')
         expect(StripeWrapper::Customer).to receive(:create).and_return(customer)
         UserSignup.new(valid_user).sign_up("fake_stripe_token")
+      end
+
+      it "stores the customer token from stripe" do
+        expect(User.last.customer_token).to eq('12345')
       end
 
       it "sends out the email" do
@@ -57,7 +61,7 @@ describe UserSignup do
       let(:invitation) { Fabricate(:invitation, invitor: joe, recipient_fullname: 'Alice', recipient_email: 'alice@exapmle.com') }
 
       before do
-        customer = double(:customer, successful?: true)
+        customer = double(:customer, successful?: true, customer_token: '12345')
         expect(StripeWrapper::Customer).to receive(:create).and_return(customer)
         UserSignup.new(valid_user).sign_up("fake_stripe_token", invitation.token)
       end
