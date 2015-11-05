@@ -1,4 +1,8 @@
 class Video < ActiveRecord::Base
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+  index_name ["myflix", Rails.env].join('_')
+
   belongs_to :category, -> { order('title') }
   has_many :reviews, -> { order('created_at DESC') }
   has_many :queue_items
@@ -18,5 +22,22 @@ class Video < ActiveRecord::Base
     ratings = []
     reviews.each { |review| ratings << review.rating }
     ratings.empty? ? 0 : (ratings.compact.sum.to_f / ratings.compact.size).round(1)
+  end
+
+  def self.search(query)
+    search_definition = {
+      query: {
+        multi_match: {
+          query: query,
+          fields: ["title", "description"],
+          operator: "and"
+        }
+      }
+    }
+    __elasticsearch__.search(search_definition)
+  end
+
+  def as_indexed_json(option={})
+    as_json(only: [:title, :description])
   end
 end

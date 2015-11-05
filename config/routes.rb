@@ -36,6 +36,8 @@ Myflix::Application.routes.draw do
   resources :videos, only: [:index, :show] do
     collection do
       get 'search', to: 'videos#search'
+      get 'advanced_search', to: 'videos#advanced_search'
+      post 'advanced_search', to: 'videos#advanced_search'
     end
     member do
       post 'review', to: 'videos#create_review'

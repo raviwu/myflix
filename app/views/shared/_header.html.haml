@@ -5,11 +5,12 @@
     - else
       = link_to "MyFLix", root_path
   - if logged_in?
-    %ul.col-md-3.clearfix
+    %ul.col-md-5
       %li= link_to "Videos", videos_path
       %li= link_to "My Queue", my_queue_path
       %li= link_to "People", people_path
-    = form_tag(search_videos_path, method: :get, enforce_utf8: false, class: 'col-md-5 navbar-form') do
+      %li= link_to 'Advanced Search', advanced_search_videos_path
+    = form_tag(search_videos_path, method: :get, enforce_utf8: false, class: 'navbar-form navbar-left') do
       .form-group
         = text_field_tag 'query', nil, placeholder: 'Search for videos here', class: 'form-control'
       = button_tag 'Search',name: nil, class: 'btn btn-default'

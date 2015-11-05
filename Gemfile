@@ -23,6 +23,8 @@ gem 'stripe'
 gem 'stripe_event'
 gem 'figaro'
 gem 'draper', '~> 1.3'
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
 
 group :development do
   gem 'thin'

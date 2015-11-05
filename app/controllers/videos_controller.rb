@@ -27,6 +27,11 @@ class VideosController < AuthenticatedController
     end
   end
 
+  def advanced_search
+    @query ||= params[:query]
+    @videos = @query ? Video.search(@query).records.to_a : []
+  end
+
   private
 
   def review_params
