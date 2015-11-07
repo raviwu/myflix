@@ -39,22 +39,12 @@ class Video < ActiveRecord::Base
       search_definition[:query][:multi_match][:fields] << "reviews.body"
     end
 
-    if query.present? && (options[:rating_from] || options[:rating_to] )
-      search_definition = {
-        query: {
-          filtered: {
-            query: search_definition[:query],
-            filter: {
-              bool: { must: {
-                        range: {
-                          avg_rating: {
-                            gte: options[:rating_from] || 0,
-                            lte: options[:rating_to] || 5
-                          }
-                        }
-                      }
-              }
-            }
+    if options[:rating_from] || options[:rating_to]
+      search_definition[:filter] = {
+        range: {
+          avg_rating: {
+            gte: options[:rating_from],
+            lte: options[:rating_to]
           }
         }
       }

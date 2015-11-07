@@ -12,16 +12,16 @@
       .col-sm-6
         .checkbox
           %label
-            =check_box_tag :reviews, true, false
+            =check_box_tag :reviews, true, params[:reviews]
             Include Reviews
     .form-group
       .row.average_rating_label Average Rating
       =label_tag :rating_from, 'From:', class: 'col-sm-1 control-label'
       .col-sm-2
-        =select_tag :rating_from, options_for_video_rating, {include_blank: true, class: 'form-control', id: "rating_from"}
+        =select_tag :rating_from, options_for_select((10..50).map { |num| num / 10.0 }, params[:rating_from]), {include_blank: true, class: 'form-control', id: "rating_from"}
       =label_tag :rating_to, 'To:', class: 'col-sm-1 control-label'
       .col-sm-2
-        =select_tag :rating_to, options_for_video_rating, {include_blank: true, class: 'form-control', id: "rating_to"}
+        =select_tag :rating_to, options_for_select((10..50).map { |num| num / 10.0 }, params[:rating_to]), {include_blank: true, class: 'form-control', id: "rating_to"}
     .form-group
       .col-sm-6
         = button_tag(type: 'submit', class: "btn btn-primary") do

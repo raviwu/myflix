@@ -29,7 +29,14 @@ class VideosController < AuthenticatedController
 
   def advanced_search
     @query ||= params[:query]
-    @videos = @query ? Video.search(@query).records.to_a : []
+
+    options = {
+      reviews: params[:reviews],
+      rating_from: (params[:rating_from] if params[:rating_from].present?),
+      rating_to: (params[:rating_to] if params[:rating_to].present?)
+    }
+
+    @videos = @query ? Video.search(@query, options).records.to_a : []
   end
 
   private
