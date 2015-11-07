@@ -12,7 +12,8 @@
       .col-sm-6
         .checkbox
           %label
-            %input(type="checkbox") Include Reviews
+            =check_box_tag :reviews, true, false
+            Include Reviews
     .form-group
       .row.average_rating_label Average Rating
       =label_tag :rating_from, 'From:', class: 'col-sm-1 control-label'
@@ -37,8 +38,8 @@
           = image_tag video.small_cover_url, alt: video.title
         .video_body.col-sm-10
           %header
-            %h3= video.title
-          %p.video_description= "#{video.description}"
+            %h3= highlight(video.title, [@query], highlighter: '<em class="label label-highlight">\1</em>')
+          %p.video_description= highlight(video.description, [@query], highlighter: '<em class="label label-highlight">\1</em>')
           %hr
           - if video.reviews.size == 0
             %footer.video_review
@@ -47,4 +48,4 @@
             .details
               %span.average_rating= "Average rating: #{video.avg_rating}"
               %span.reviews_count= pluralize(video.reviews.size, "review")
-            %footer.video_review= video.reviews.last.body
+            %footer.video_review= highlight(video.reviews.last.body, [@query], highlighter: '<em class="label label-highlight">\1</em>')
