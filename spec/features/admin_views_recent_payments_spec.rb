@@ -8,7 +8,7 @@ feature 'Admin views recent payment', {js: true, vcr: true} do
     Fabricate(:payment, user: joe, reference_id: "asdfg")
   end
 
-  scenario "admin sees the 10 recent payments" do
+  scenario "admin sees recent payments" do
     sign_in(admin)
     visit admin_payments_path
     expect(page).to have_content('Joe Doe')

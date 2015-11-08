@@ -52,7 +52,7 @@ describe UserSignup do
         UserSignup.new(invalid_user).sign_up("fake_stripe_token")
       end
       it "does not charge the card" do
-        expect(StripeWrapper::Customer).not_to receive(:customer)
+        expect(StripeWrapper::Customer).not_to receive(:create)
       end
     end
 

@@ -49,8 +49,6 @@ feature "User can invite other users", { js: true, vcr: true } do
     select(valid_card[:exp_year], :from => 'exp_year' )
     click_button 'Sign Up'
 
-    sleep 3.0 # wait for the filling things done avoid random fails with capybara-webkit
-
     expect(page).to have_content invitation[:guest_fullname]
   end
 

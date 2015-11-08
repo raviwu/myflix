@@ -11,6 +11,7 @@ Sidekiq::Testing.inline!
 
 Capybara.server_port = 52662
 Capybara.javascript_driver = :webkit
+Capybara.default_max_wait_time = 5
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 

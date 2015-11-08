@@ -56,5 +56,5 @@ def user_register(options={})
 
   click_button 'Sign Up'
 
-  sleep 3.0 # wait for the js finishing
+  expect(page).to have_content(options[:fullname])
 end
